@@ -28,4 +28,5 @@ public record Task
     DateTime CompleteDate;//real completion date.
     string Deliverables;//description of deliverables for MS copmletion.
     string Remarks;//free remarks from project meetings.
+    ///rgthyuyu
 }
