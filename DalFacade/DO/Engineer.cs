@@ -1,6 +1,6 @@
 ﻿namespace DO;
 /// <summary>
-/// Student Entity represents an engineer with all its props
+/// A programmer with a certain level of professionalism who should perform tasks.
 /// </summary>
 /// <param name="Id">Personal unique ID of engineer (as in national id card)</param>
 /// <param name="Name">engineer's name</param>

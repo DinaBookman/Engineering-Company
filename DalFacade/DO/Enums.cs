@@ -2,7 +2,7 @@
 /// <summary>
 /// experience levels of the enganeer.
 /// </summary>
-enum EngineerExperience
+public enum EngineerExperience
 {
     Novice,
     Beginner,

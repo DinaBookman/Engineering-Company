@@ -1,6 +1,6 @@
 ﻿namespace DO;
 /// <summary>
-/// 
+/// A task that should be performed by a programmer.
 /// </summary>
 /// <param name="Id">unique ID (created automatically)</param>
 /// <param name="Description">describe the task</param>
@@ -15,10 +15,10 @@ public record Task
 (
     int Id,
     string Description,
-    string Alias,
-    DateTime StartDate,
-    DateTime ScheduledDate,
-    DateTime ForecastDate,
+    string? Alias,
+    DateTime? StartDate,
+    DateTime? ScheduledDate,
+    DateTime? ForecastDate,
     int EngineerId,
     EngineerExperience CopmlexityLevel,
     bool IsMilestone = false
@@ -28,5 +28,4 @@ public record Task
     DateTime CompleteDate;//real completion date.
     string Deliverables;//description of deliverables for MS copmletion.
     string Remarks;//free remarks from project meetings.
-    ///rgthyuyu
 }
