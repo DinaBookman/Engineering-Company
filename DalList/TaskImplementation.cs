@@ -9,10 +9,10 @@ public class TaskImplementation : ITask
 {
     public int Create(Task item)
     {
-        Task newTask(DataSource.Config.NextTaskId);
-        newTask.Id = DataSource.Config.NextTaskId;
-        throw new NotImplementedException();
-        rerurn DataSource.Config.NextTaskId;
+        int newId = DataSource.Config.NextTaskId;
+        Task task = item with { Id = newId };
+        DataSource.Tasks.Add(task);
+        return newId;
     }
 
     public void Delete(int id)
