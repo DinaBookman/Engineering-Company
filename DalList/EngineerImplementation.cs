@@ -1,32 +1,41 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
+using static Dal.DataSource;
 //using System.Collections.Generic;
 
 public class EngineerImplementation : IEngineer
 {
-    public int Create(Engineer item)
+    public int Create(Engineer engineer)
     {
-        throw new NotImplementedException();
+        if (Read(engineer.Id) is not null)
+            throw new Exception($"Engineer with ID={engineer.Id} already exists");
+        DataSource.Engineers.Add(engineer);
+        return engineer.Id;
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        Engineer? toRemove = Read(id);
+        if (toRemove is null)
+            throw new Exception($"Engineer with ID={id} does not exist");
+        DataSource.Engineers.Remove(toRemove);
     }
 
     public Engineer? Read(int id)
     {
-        throw new NotImplementedException();
+        Engineer? foundEngineer = Array.Find(Engineers, item => item.Id == id));
+        return foundEngineer;
     }
 
     public List<Engineer> ReadAll()
     {
-        throw new NotImplementedException();
+        return new List<Engineer>(DataSource.Engineers);
     }
 
-    public void Update(Engineer item)
+    public void Update(Engineer engineer)
     {
-        throw new NotImplementedException();
+        Delete(engineer.Id);
+        Create(engineer);
     }
 }

@@ -1,32 +1,42 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
+using static Dal.DataSource;
+
 //using System.Collections.Generic;
 
 public class DependencyImplementation : IDependency
 {
-    public int Create(Dependency item)
+    public int Create(Dependency dependency)
     {
-        throw new NotImplementedException();
+        int id = DataSource.Config.NextDependencyId;
+        Dependency copy = dependency with { Id = id };
+        DataSource.Dependencies.Add(copy);
+        return id;
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        Dependency? toRemove = Read(id);
+        if (toRemove is null)
+            throw new Exception($"Dependency with ID={id} does not exist");
+        DataSource.Dependencies.Remove(toRemove);
     }
 
     public Dependency? Read(int id)
     {
-        throw new NotImplementedException();
+        Dependency? foundDependency = Array.Find(Dependencies, item => item.Id == id));
+        return foundDependency;
     }
 
     public List<Dependency> ReadAll()
     {
-        throw new NotImplementedException();
+        return new List<Dependency>(DataSource.Dependencies);
     }
 
-    public void Update(Dependency item)
+    public void Update(Dependency dependency)
     {
-        throw new NotImplementedException();
+        Delete(dependency.Id);
+        Create(dependency);
     }
 }

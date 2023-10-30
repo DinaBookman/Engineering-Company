@@ -7,31 +7,43 @@ using static Dal.DataSource;
 
 public class TaskImplementation : ITask
 {
-    public int Create(Task item)
+    //public int Create(Task item)
+    //{
+    //    Task newTask(DataSource.Config.NextTaskId);
+    //    newTask.Id = DataSource.Config.NextTaskId;
+    //    throw new NotImplementedException();
+    //    rerurn DataSource.Config.NextTaskId;
+    //}
+    public int Create(Task task)
     {
-        Task newTask(DataSource.Config.NextTaskId);
-        newTask.Id = DataSource.Config.NextTaskId;
-        throw new NotImplementedException();
-        rerurn DataSource.Config.NextTaskId;
+        int id = DataSource.Config.NextTaskId;
+        Task copy = task with { Id = id };
+        DataSource.Tasks.Add(copy);
+        return id;
     }
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        Task? toRemove = Read(id);
+        if (toRemove is null)
+            throw new Exception($"Task with ID={id} does not exist");
+        DataSource.Tasks.Remove(toRemove);
     }
 
     public Task? Read(int id)
     {
-        throw new NotImplementedException();
+        Task? foundTask = Array.Find(Tasks, item => item.Id == id));
+        return foundTask;
     }
 
     public List<Task> ReadAll()
     {
-        throw new NotImplementedException();
+        return new List<Task>(DataSource.Tasks);
     }
 
-    public void Update(Task item)
+    public void Update(Task task)
     {
-        throw new NotImplementedException();
+       Delete(task.Id);
+       Create(task);
     }
 }

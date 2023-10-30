@@ -15,6 +15,3 @@ public record Engineer
    EngineerExperience Level,
    int Wage
 );
- 
-
- 
