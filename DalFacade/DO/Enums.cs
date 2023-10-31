@@ -1,6 +1,6 @@
 ﻿namespace DO;
 /// <summary>
-/// experience levels of the enganeer.
+/// experience levels of the engineer.
 /// </summary>
 public enum EngineerExperience
 {
