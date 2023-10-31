@@ -22,10 +22,10 @@ public class TaskImplementation : ITask
             throw new Exception($"Task with ID={id} does not exist");
         DataSource.Tasks.Remove(toRemove);
     }
-
+    
     public Task? Read(int id)
     {
-        Task? foundTask = Array.Find(Tasks, item => item.Id == id));
+        Task? foundTask = Tasks.Find(item => item.Id == id});
         return foundTask;
     }
 

@@ -24,7 +24,7 @@ public class EngineerImplementation : IEngineer
 
     public Engineer? Read(int id)
     {
-        Engineer? foundEngineer = Array.Find(Engineers, item => item.Id == id));
+        Engineer? foundEngineer = Engineers.Find(item => item.Id == id);
         return foundEngineer;
     }
 

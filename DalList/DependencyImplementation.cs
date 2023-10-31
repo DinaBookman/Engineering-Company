@@ -25,7 +25,7 @@ public class DependencyImplementation : IDependency
 
     public Dependency? Read(int id)
     {
-        Dependency? foundDependency = Array.Find(Dependencies, item => item.Id == id));
+        Dependency? foundDependency = Dependencies.Find(item => item.Id == id);
         return foundDependency;
     }
 
