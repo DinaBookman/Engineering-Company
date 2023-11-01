@@ -130,4 +130,14 @@ public static class Initialization
         Dependency newDependency = new(0000, null, null);
         s_dalDependency!.Create(newDependency);
     }
+
+    public static void Do(IEngineer? dalEngineer, ITask? dalTask, IDependency? dalDependency)
+    {
+        s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
+        s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
+        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
+        createTasks();
+        createEngineers();
+        createDependencies();
+    }
 }
