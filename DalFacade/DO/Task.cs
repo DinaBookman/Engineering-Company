@@ -16,16 +16,45 @@ public record Task
     int Id,
     string Description,
     string? Alias,
-    DateTime? StartDate,
-    DateTime? ScheduledDate,
-    DateTime? ForecastDate,
-    int EngineerId,
+    DateTime CreatedAtDate,
+    DateTime StartDate,
+    DateTime ScheduledDate,
+    DateTime ForecastDate,
+    int? EngineerId,
     EngineerExperience CopmlexityLevel,
-    bool IsMilestone = false
+    bool IsMilestone
 )
 {
-    DateTime CreatedAtDate => DateTime.Now;//ate when the task was added to the system, get only
-    DateTime CompleteDate;//real completion date.
+    DateTime? CompleteDate;//real completion date.
     string Deliverables;//description of deliverables for MS copmletion.
     string Remarks;//free remarks from project meetings.
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

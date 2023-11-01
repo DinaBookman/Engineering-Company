@@ -2,7 +2,6 @@
 using DalApi;
 using DO;
 using static Dal.DataSource;
-
 //using System.Collections.Generic;
 public class TaskImplementation : ITask
 {

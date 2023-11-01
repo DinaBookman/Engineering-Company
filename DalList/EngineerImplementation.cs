@@ -58,4 +58,17 @@ public class EngineerImplementation : IEngineer
         Delete(engineer.Id);
         Create(engineer);
     }
+    /// <summary>
+    /// //returns the engineers level by its id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public EngineerExperience GetLevel(int id)
+    {
+        Engineer? engineer = Read(id);
+        if (engineer is null)
+            throw new Exception($"Engineer with ID={id} does not exist");
+        return engineer.Level;
+    }
 }
