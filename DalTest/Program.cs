@@ -11,7 +11,58 @@ namespace DalTest
         private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
         private static ITask? s_dalTask = new TaskImplementation(); //stage 1
         private static IDependency? s_dalDependency = new DependencyImplementation();
-        private static void EngineerCRUD()
+
+        private Engineer createEngineer()
+        {
+            Console.WriteLine("Please enter Engineers Id\n");
+            int _id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter Engineers Name\n");
+            string _name = Console.ReadLine()!;
+            Console.WriteLine("Please enter Engineers Email\n");
+            string _email = Console.ReadLine()!;
+            Console.WriteLine("Please enter Engineer Experience (0 - 4)\n");
+            int _level = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter Engineers cost\n");
+            int _cost = Convert.ToInt32(Console.ReadLine());
+            Engineer newEngineer = new(_id, _name, _email, (EngineerExperience)_level, _cost);
+            return newEngineer;
+        }
+
+        private Task createTask(int _id = 0000)
+        {
+            Console.WriteLine("Please enter a description of the task");
+            string _description = Console.ReadLine()!;
+            Console.WriteLine("Please enter tasks alias");
+            string _alias = Console.ReadLine()!;
+            Console.WriteLine("Please enter Engineers id");
+            int _engineerId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter complexity level (0 - 4)\n");
+            int _level = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter a comment");
+            string _comment = Console.ReadLine()!;
+            DateTime createdDate = DateTime.Now;
+            DateTime startDate = createdDate.Add(TimeSpan.FromDays(1));
+            DateTime endDate = createdDate.Add(TimeSpan.FromDays(30));
+            DateTime Deadline = createdDate.Add(TimeSpan.FromDays(15));
+            DateTime estDateCompletion = endDate.Add(TimeSpan.FromDays(-3));
+            Engineer newEngineer = new(_id, _description, _alias, createdDate, startDate, endDate, Deadline, estDateCompletion, _engineerId, (EngineerExperience)_level, false);
+            newEngineer.Remark = _comment;
+            return newEngineer;
+        }
+
+        private Dependency createDependency()
+        {
+            int _dependentTask;
+            int _dependsOnTask;
+            Console.WriteLine("Enter dependent Task:");
+            task_id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter depends on Task id:");
+            prev_task_id = Convert.ToInt32(Console.ReadLine());
+            Dependency newDpendency = new(_dependentTask, _dependsOnTask);
+            return newDpendency
+        }
+
+        private void engineerCRUD()
         {
             int choice;
             do
@@ -21,35 +72,110 @@ namespace DalTest
                 choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
+                    case 0: break;
                     case 1:
-                        Console.WriteLine("Please enter Engineers Id\n");
-                        int _id = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Please enter Engineers Name\n");
-                        string _name = Console.ReadLine()!;
-                        Console.WriteLine("Please enter Engineers Email\n");
-                        string _email = Console.ReadLine()!;
-                        Console.WriteLine("Please enter Engineers Engineer Experience\n");
-                        int _level = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Please enter Engineers wage\n");
-                        int _wage = Convert.ToInt32(Console.ReadLine());
-                        Engineer newEngineer = new(_id, _name, _email, (EngineerExperience)_level, _wage);
-                        s_dalEngineer!.Create(newEngineer);
+                        createEngineer();
                         break;
                     case 2:
                         Console.WriteLine("Please enter Engineers Id\n");
-                        _id = int.TryParse(Console.ReadLine());
-                        newEngineer = s_dalEngineer!.Read(_id);
-                        
+                        Console.WriteLine(s_dalEngineer!.Read(Convert.ToInt32(Console.ReadLine())));
                         break;
                     case 3:
-                        
+                        foreach (var item in s_dalEngineer!.ReadAll())
+                            Console.WriteLine(item);
                         break;
+                    case 4:
+                        Console.WriteLine("Enter Engineer's id");
+                        int _id = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine(s_dalEngineer!.Read(_id)));
+                        s_dalEngineer!.Update(createEngineer());
                         break;
-                    default: break;
+                    case 5:
+                        s_dalEngineer!.Delete(Convert.ToInt32(Console.ReadLine()));
+                        break;
+                    default:
+                        Console.WriteLine("Wrong choice");
+                        break;
                 }
             } while (choice != 0);
-           
         }
+
+        private void taskCRUD()
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("Please Enter your choice: 0 -To Exit, 1 -Create Task, 2 -Find Task," +
+                             " 3 -Get list of Tasks, 4 -Update Tasks information, 5 -Delete Task\n");
+                choice = Convert.ToInt32(Console.ReadLine());
+                switch (choice)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        s_dalEngineer!.Create(createTask()); 
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter task's id");
+                        Console.WriteLine(s_dalTask!.Read(Convert.ToInt32(Console.ReadLine())));
+                        break;
+                    case 3:
+                        foreach (var item in s_dalTask!.ReadAll())
+                            Console.WriteLine(item);
+                        break;
+                    case 4:
+                        Console.WriteLine("Enter task's id");
+                        int _id = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine(s_dalTask!.Read(_id)));
+                        s_dalTask!.Update(createTask(_id));
+                        break;
+                    case 5:
+                        s_dalTask!.Delete(Convert.ToInt32(Console.ReadLine()));
+                        break;
+                    default:
+                        Console.WriteLine("Wrong choice");
+                        break;
+                }
+            } while (choice != 0);
+        }
+
+        private void dependencyCRUD()
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("Please Enter your choice: 0 -To Exit, 1 -Create dependency, 2 -Find dependency," +
+                             " 3 -Get list of dependencies, 4 -Update dependencies information, 5 -Delete dependency\n");
+                choice = Convert.ToInt32(Console.ReadLine());
+                switch (choice)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        s_dalDependency!.Create(createDependency());
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter Dependency id");
+                        s_dalDependence!.Read(Convert.ToInt32(Console.ReadLine()));
+                        break;
+                    case 3:
+                        foreach (var item in s_dalDependency!.ReadAll())
+                             Console.WriteLine($"id: {item.Id}  task id: {item.DependentTask}  pervious task id: {item.DependsOnTask}");
+                        break;
+                    case 4:
+                        s_dalDependency!.Update(createDependency());
+                        break;
+                    case 5:
+                        Console.WriteLine("Enter Dependency id");
+                        s_dalDependency!.Delete(Convert.ToInt32(Console.ReadLine()));
+                        break;
+                    default:
+                        Console.WriteLine("Wrong choice");
+                        break;
+                }
+            } while (choice != 0);
+        }
+
         static void Main(string[] args)
         {
             try
@@ -63,10 +189,14 @@ namespace DalTest
                     switch (choice)
                     {
                         case 1:
-                            EngineerCRUD();
+                            engineerCRUD();
                             break;
-                        case 2: break;
-                        case 3: break;
+                        case 2:
+                            taskCRUD();
+                            break;
+                        case 3:
+                            dependencyCRUD();
+                            break;
                         default:break;
                     }
                 }
@@ -79,5 +209,3 @@ namespace DalTest
         }
     }
 }
-       
-     

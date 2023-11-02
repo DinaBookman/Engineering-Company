@@ -18,6 +18,31 @@ public static class Initialization
     private static IEngineer? s_dalEngineer;
     private static IDependency? s_dalDependency;
     private static readonly Random s_rand = new();
+
+    private static void createEngineers()
+    {
+        string[] engineerNames =
+        {
+        "Dani Levi" ,
+        "Eli Amar",
+        "Yair Cohen",
+        "Ariela Levin",
+        "Diana Klein",
+        };
+        foreach (var _name in engineerNames)
+        {
+            //Creates random ids.
+            int _id;
+            do
+                _id = s_rand.Next(MIN_ID, MAX_ID);
+            while (s_dalEngineer!.Read(_id) != null);
+
+            //Creates new Engineer. 
+            Engineer newEngineer = new(_id, _name, $"{_id}@gmail.com", (EngineerExperience)1, 200.35);
+            s_dalEngineer!.Create(newEngineer);
+        }
+    }
+
     private static void createTasks() 
     {
         string[] TaskDescriptions =
@@ -43,92 +68,33 @@ public static class Initialization
         "Update Data in file fhu8476.txt",
         "Add Enum to Project i3764"
         };
-
         foreach (var _description in TaskDescriptions)
         {
-            //All tasks are repeated 5 times with different details.
-            for (int i = 0; i < 5; i++)
-            { 
-                //Date of creation - random date within the recent year.
-                int range = s_rand.Next(-365, 0); //1 year
-                DateTime _createdAtDate = DateTime.Today.AddDays(range);
+            //Date of creation - random date within the recent year.
+            int range = s_rand.Next(-365, 0); //1 year
+            DateTime _createdAtDate = DateTime.Today.AddDays(range);
 
-                //chooses random date in the next five years range for scheduledDate and then the forecastDate is 20 days after.
-                range = s_rand.Next(0, 365 * 2); //5 years  
-                DateTime _scheduledDate = DateTime.Today.AddDays(range);
-                DateTime _forecastDate = _scheduledDate.AddDays(20);
+            //chooses random task level.
+            int _level;
+            _level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);
 
-                //chooses random task level.
-                int _level;
-                _level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);
-
-                Task newTask = new(0000, _description, null, _createdAtDate, DateTime.Now, _scheduledDate, _forecastDate, null, (EngineerExperience)_level, false);
-                s_dalTask!.Create(newTask);
-            }
+            //Creates new Task.
+            Task newTask = new(0000, _description, null, _createdAtDate, null, null, null, null, null, (EngineerExperience)_level, false);
+            s_dalTask!.Create(newTask);
         }
-
     }
-    private static void createEngineers()
-    {
-        string[] engineerNames =
-        {
-        "Dani Levi" ,
-        "Eli Amar",
-        "Yair Cohen",
-        "Ariela Levin",
-        "Dina Klein",
-        "Shira Pliskin",
-        "Sara Cohen",
-        "Naama Polak",
-        "Dina Levinson",
-        "Ayala Meir",
-        "Avi Berlin",
-        "Yael Berlin",
-        "Shira Gray",
-        "Chavi Safra",
-        "Chavi Naftali",
-        "Chara Shlomo",
-        "Shlomo Ellinson",
-        "Dani Lev",
-        "Eli Amarti",
-        "Yair Plisk",
-        "Ariela Dissin",
-        "Dina Klowy",
-        "Shira Henner",
-        "Sara Elner",
-        "Rivky Laofer",
-        "Malkiel Dash",
-        "BatTzion Ray",
-        "Avi Hofman",
-        "Yael Malkiel",
-        "Dassi Bruan",
-        "Leah shitrit",
-        "Sari Chefetz",
-        "Esti Shpigel",
-        "Tzvi Kaplan",
-        "Lally Shprintza",
-        "Shoshanat Ha'amakim",
-        "Chavatzelet Ha'sharon",
-        "Yaeli Ellinson",
-        "Yossi Adler",
-        "Plonit Almonit"
-        };
-        foreach (var _name in engineerNames)
-        {
-            //creates random ids.
-            int _id;
-            do
-               _id = s_rand.Next(MIN_ID, MAX_ID);
-            while (s_dalEngineer!.Read(_id) != null);
-
-            Engineer newEngineer = new(_id, _name, $"{_id}@gmail.com", (EngineerExperience)1, 12000);
-            s_dalEngineer!.Create(newEngineer);
-        } 
-    }
+   
     private static void createDependencies()
     {
-        Dependency newDependency = new(0000, null, null);
-        s_dalDependency!.Create(newDependency);
+        //Create dependencies between Tasks. Every Task with Id 1016 - 1020 dependes of Tasks with Id 1000 - 1010.
+        for(int i = 1016; i < 1020; i++)
+        {
+            for (int j = 1000; j < 1010; j++)
+            {
+                Dependency newDependency = new(0000, i, j);
+                s_dalDependency!.Create(newDependency);
+            }
+        } 
     }
 
     public static void Do(IEngineer? dalEngineer, ITask? dalTask, IDependency? dalDependency)

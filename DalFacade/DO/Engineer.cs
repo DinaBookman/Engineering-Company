@@ -6,12 +6,12 @@
 /// <param name="Name">engineer's name</param>
 /// <param name="Email">engineer's email adrres</param>
 /// <param name="Level">engineer's level can either be a manager or engineer</param>
-/// <param name="Wage">salary per hour</param>
+/// <param name="Cost">salary per hour</param>
 public record Engineer
 (
    int Id,
    string Name,
    string Email,
    EngineerExperience Level,
-   int Wage
+   double Cost
 );

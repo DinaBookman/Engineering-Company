@@ -5,9 +5,10 @@
 /// <param name="Id">unique ID (created automatically)</param>
 /// <param name="Description">describe the task</param>
 /// <param name="Alias">The alias of the task</param>
+/// <param name="CreatedAtDate">Task creation date</param>
 /// <param name="StartDate">the real start date</param>
 /// <param name="ScheduledDate">the original date on which it should be completed</param>
-/// <param name="ForecastDate">a revised scheduled completion date</param>
+/// <param name="DeadlineDate">a revised scheduled completion date</param>
 /// <param name="EngineerId"></param>
 /// <param name="CopmlexityLevel">task: minimum expirience for engineer to assign</param>
 /// <param name="IsMilestone"></param>
@@ -17,9 +18,10 @@ public record Task
     string Description,
     string? Alias,
     DateTime CreatedAtDate,
-    DateTime StartDate,
-    DateTime ScheduledDate,
-    DateTime ForecastDate,
+    DateTime? StartDate,
+    DateTime? ScheduledDate,
+    DateTime? DeadlineDate,
+    DateTime? ForecastAtDate,
     int? EngineerId,
     EngineerExperience CopmlexityLevel,
     bool IsMilestone
@@ -27,7 +29,7 @@ public record Task
 {
     DateTime? CompleteDate;//real completion date.
     string Deliverables;//description of deliverables for MS copmletion.
-    string Remarks;//free remarks from project meetings.
+    public string Remarks { get { return Remarks; }; set { Remarks = value; } };//free remarks from project meetings.
 }
 
 
