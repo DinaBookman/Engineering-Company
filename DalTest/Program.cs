@@ -12,6 +12,7 @@ namespace DalTest
         private static ITask? s_dalTask = new TaskImplementation(); //stage 1
         private static IDependency? s_dalDependency = new DependencyImplementation();
 
+        //function to create an engineer.
         private Engineer createEngineer()
         {
             Console.WriteLine("Please enter Engineers Id\n");
@@ -28,6 +29,7 @@ namespace DalTest
             return newEngineer;
         }
 
+        //function to create an task.
         private Task createTask(int _id = 0000)
         {
             Console.WriteLine("Please enter a description of the task");
@@ -50,6 +52,7 @@ namespace DalTest
             return newEngineer;
         }
 
+        //function to create an Dependency.
         private Dependency createDependency()
         {
             int _dependentTask;
@@ -62,6 +65,7 @@ namespace DalTest
             return newDpendency
         }
 
+        //engineer CRUD functions
         private void engineerCRUD()
         {
             int choice;
@@ -99,7 +103,7 @@ namespace DalTest
                 }
             } while (choice != 0);
         }
-
+        //Task CRUD functions
         private void taskCRUD()
         {
             int choice;
@@ -138,7 +142,7 @@ namespace DalTest
                 }
             } while (choice != 0);
         }
-
+        //dependency CRUD functions
         private void dependencyCRUD()
         {
             int choice;
@@ -175,7 +179,7 @@ namespace DalTest
                 }
             } while (choice != 0);
         }
-
+        //Main function
         static void Main(string[] args)
         {
             try
