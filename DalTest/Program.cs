@@ -103,6 +103,7 @@ namespace DalTest
                 }
             } while (choice != 0);
         }
+
         //Task CRUD functions
         private void taskCRUD()
         {
@@ -142,6 +143,7 @@ namespace DalTest
                 }
             } while (choice != 0);
         }
+
         //dependency CRUD functions
         private void dependencyCRUD()
         {
@@ -179,6 +181,7 @@ namespace DalTest
                 }
             } while (choice != 0);
         }
+
         //Main function
         static void Main(string[] args)
         {
