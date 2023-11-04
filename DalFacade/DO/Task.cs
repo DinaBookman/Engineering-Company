@@ -28,8 +28,8 @@ public record Task
 )
 {
     DateTime? CompleteDate;//real completion date.
-    string Deliverables;//description of deliverables for MS copmletion.
-    public string Remarks { get { return Remarks; }; set { Remarks = value; } };//free remarks from project meetings.
+    string? Deliverables;//description of deliverables for MS copmletion.
+    public string Remarks { get { return Remarks; } set { Remarks = value; } }//free remarks from project meetings.
 }
 
 

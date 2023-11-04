@@ -36,7 +36,7 @@ public class TaskImplementation : ITask
     /// <returns></returns>
     public Task? Read(int id)
     {
-        Task? foundTask = Tasks.Find(item => item.Id == id});
+        Task? foundTask = Tasks.Find(item => item.Id == id);
         return foundTask;
     }
     /// <summary>
