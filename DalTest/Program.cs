@@ -110,8 +110,7 @@ namespace DalTest
             int choice;
             do
             {
-                Console.WriteLine("Please Enter your choice: 0 -To Exit, 1 -Create Task, 2 -Find Task," +
-                             " 3 -Get list of Tasks, 4 -Update Tasks information, 5 -Delete Task");
+                Console.WriteLine("Please Enter your choice: 0 -To Exit, 1 -Create Task, 2 -Find Task, 3 -Get list of Tasks, 4 -Update Tasks information, 5 -Delete Task");
                 choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
