@@ -12,6 +12,7 @@
 /// <param name="EngineerId"></param>
 /// <param name="CopmlexityLevel">task: minimum expirience for engineer to assign</param>
 /// <param name="IsMilestone"></param>
+///<param name="Remarks">free remarks from project meetings.</param>
 public record Task
 (
     int Id,
@@ -24,12 +25,12 @@ public record Task
     DateTime? ForecastAtDate,
     int? EngineerId,
     EngineerExperience CopmlexityLevel,
-    bool IsMilestone
+    bool IsMilestone,
+    string? Remarks
 )
 {
     DateTime? CompleteDate;//real completion date.
-    string? Deliverables;//description of deliverables for MS copmletion.
-    public string Remarks { get { return Remarks; } set { Remarks = value; } }//free remarks from project meetings.
+    string? Deliverables;//description of deliverables for MS copmletion. 
 }
 
 

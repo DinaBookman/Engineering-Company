@@ -79,7 +79,7 @@ public static class Initialization
             _level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);
 
             //Creates new Task.
-            Task newTask = new(0000, _description, null, _createdAtDate, null, null, null, null, null, (EngineerExperience)_level, false);
+            Task newTask = new(0000, _description, null, _createdAtDate, null, null, null, null, null, (EngineerExperience)_level, false,null);
             s_dalTask!.Create(newTask);
         }
     }
