@@ -3,7 +3,7 @@ using DalApi;
 using DO;
 using static Dal.DataSource;
 //using System.Collections.Generic;
-public class TaskImplementation : ITask
+internal class TaskImplementation : ITask
 {
      /// <summary>
      /// creates a task and adds it to tasks list.

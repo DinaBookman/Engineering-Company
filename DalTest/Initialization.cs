@@ -14,9 +14,8 @@ public static class Initialization
     //Used to create random level.
     const int LOW_LEVEL = 0, HIGH_LEVEL = 4;
 
-    private static ITask? s_dalTask;
-    private static IEngineer? s_dalEngineer;
-    private static IDependency? s_dalDependency;
+    private static IDal? s_dal;//stage 2
+
     private static readonly Random s_rand = new();
 
     private static void createEngineers()
@@ -35,11 +34,11 @@ public static class Initialization
             int _id;
             do
                 _id = s_rand.Next(MIN_ID, MAX_ID);
-            while (s_dalEngineer!.Read(_id) != null);
+            while (s_dal!.Engineer!.Read(_id) != null);
 
             //Creates new Engineer. 
             Engineer newEngineer = new(_id, _name, $"{_id}@gmail.com", (EngineerExperience)1, 200.35);
-            s_dalEngineer!.Create(newEngineer);
+            s_dal!.Engineer!.Create(newEngineer);
         }
     }
 
@@ -80,7 +79,7 @@ public static class Initialization
 
             //Creates new Task.
             Task newTask = new(0000, _description, null, _createdAtDate, null, null, null, null, null, (EngineerExperience)_level, false,null);
-            s_dalTask!.Create(newTask);
+            s_dal!.Task!.Create(newTask);
         }
     }
    
@@ -92,16 +91,14 @@ public static class Initialization
             for (int j = 1000; j < 1010; j++)
             {
                 Dependency newDependency = new(0000, i, j);
-                s_dalDependency!.Create(newDependency);
+                s_dal!.Dependency!.Create(newDependency);
             }
         } 
     }
 
-    public static void Do(IEngineer? dalEngineer, ITask? dalTask, IDependency? dalDependency)
+    public static void Do(IDal dal)
     {
-        s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
+        s_dal = dal ?? throw new NullReferenceException("DAL can not be null!");
         createTasks();
         createEngineers();
         createDependencies();

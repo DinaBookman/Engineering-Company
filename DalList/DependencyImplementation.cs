@@ -5,7 +5,7 @@ using static Dal.DataSource;
 
 //using System.Collections.Generic;
 
-public class DependencyImplementation : IDependency
+internal class DependencyImplementation : IDependency
 {
     /// <summary>
     /// creates a dependency.

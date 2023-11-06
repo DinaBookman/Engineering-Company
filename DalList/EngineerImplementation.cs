@@ -4,7 +4,7 @@ using DO;
 using static Dal.DataSource;
 //using System.Collections.Generic;
 
-public class EngineerImplementation : IEngineer
+internal class EngineerImplementation : IEngineer
 {  
      /// <summary>
      /// creates an engineer and adds it to the engineer list.

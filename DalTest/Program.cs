@@ -8,9 +8,7 @@ namespace DalTest
 {
     internal class Program
     {
-        private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
-        private static ITask? s_dalTask = new TaskImplementation(); //stage 1
-        private static IDependency? s_dalDependency = new DependencyImplementation();
+        static readonly IDal s_dal = new DalList(); //stage 2
 
         //function to create an engineer.
         private static Engineer CreateEngineer()
@@ -75,27 +73,27 @@ namespace DalTest
                 choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
-                    case 0: break;
+                    case 0: return;
                     case 1:
-                        s_dalEngineer!.Create(CreateEngineer());
+                        s_dal!.Engineer.Create(CreateEngineer());
                         break;
                     case 2:
                         Console.WriteLine("Please enter Engineers Id");
-                        Console.WriteLine(s_dalEngineer!.Read(Convert.ToInt32(Console.ReadLine())));
+                        Console.WriteLine(s_dal!.Engineer.Read(Convert.ToInt32(Console.ReadLine())));
                         break;
                     case 3:
-                        foreach (var item in s_dalEngineer!.ReadAll())
+                        foreach (var item in s_dal!.Engineer.ReadAll())
                             Console.WriteLine(item);
                         break;
                     case 4:
                         Console.WriteLine("Enter Engineer's id:");
                         int _id = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine(s_dalEngineer!.Read(_id));
-                        s_dalEngineer!.Update(CreateEngineer());
+                        Console.WriteLine(s_dal!.Engineer.Read(_id));
+                        s_dal!.Engineer.Update(CreateEngineer());
                         break;
                     case 5:
                         Console.WriteLine("Enter Engineer's id:");
-                        s_dalEngineer!.Delete(Convert.ToInt32(Console.ReadLine()));
+                        s_dal!.Engineer.Delete(Convert.ToInt32(Console.ReadLine()));
                         break;
                     default:
                         Console.WriteLine("Wrong choice:");
@@ -114,28 +112,27 @@ namespace DalTest
                 choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
-                    case 0:
-                        break;
+                    case 0: return;
                     case 1:
-                        s_dalTask!.Create(CreateTask()); 
+                        s_dal!.Task.Create(CreateTask()); 
                         break;
                     case 2:
                         Console.WriteLine("Enter task's id:");
-                        Console.WriteLine(s_dalTask!.Read(Convert.ToInt32(Console.ReadLine())));
+                        Console.WriteLine(s_dal!.Task.Read(Convert.ToInt32(Console.ReadLine())));
                         break;
                     case 3:
-                        foreach (var item in s_dalTask!.ReadAll())
+                        foreach (var item in s_dal!.Task.ReadAll())
                             Console.WriteLine(item);
                         break;
                     case 4:
                         Console.WriteLine("Enter task's id:");
                         int _id = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine(s_dalTask!.Read(_id));
-                        s_dalTask!.Update(CreateTask(_id));
+                        Console.WriteLine(s_dal!.Task.Read(_id));
+                        s_dal!.Task.Update(CreateTask(_id));
                         break;
                     case 5:
                         Console.WriteLine("Enter task's id:");
-                        s_dalTask!.Delete(Convert.ToInt32(Console.ReadLine()));
+                        s_dal!.Task.Delete(Convert.ToInt32(Console.ReadLine()));
                         break;
                     default:
                         Console.WriteLine("Wrong choice:");
@@ -155,25 +152,24 @@ namespace DalTest
                 choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
-                    case 0:
-                        break;
+                    case 0: return;
                     case 1:
-                        s_dalDependency!.Create(CreateDependency());
+                        s_dal!.Dependency.Create(CreateDependency());
                         break;
                     case 2:
                         Console.WriteLine("Enter Dependency id:");
-                        s_dalDependency!.Read(Convert.ToInt32(Console.ReadLine()));
+                        s_dal!.Dependency.Read(Convert.ToInt32(Console.ReadLine()));
                         break;
                     case 3:
-                        foreach (var item in s_dalDependency!.ReadAll())
+                        foreach (var item in s_dal!.Dependency.ReadAll())
                              Console.WriteLine($"id: {item.Id}  task id: {item.DependentTask}  pervious task id: {item.DependsOnTask}");
                         break;
                     case 4:
-                        s_dalDependency!.Update(CreateDependency());
+                        s_dal!.Dependency.Update(CreateDependency());
                         break;
                     case 5:
                         Console.WriteLine("Enter Dependency id:");
-                        s_dalDependency!.Delete(Convert.ToInt32(Console.ReadLine()));
+                        s_dal!.Dependency.Delete(Convert.ToInt32(Console.ReadLine()));
                         break;
                     default:
                         Console.WriteLine("Wrong choice");
@@ -183,18 +179,19 @@ namespace DalTest
         }
 
         //Main function
-        static void Main()
+        static void Main(string[] args)
         {
             try
             {
                 int choice;
-                Initialization.Do(s_dalEngineer, s_dalTask, s_dalDependency);
+                Initialization.Do(s_dal);
                 do
                 {
                     Console.WriteLine("Please enter your choice: 0 -Exit, 1 -Engineer, 2 -Task, 3 -Dependency");
                     choice = Convert.ToInt32(Console.ReadLine());
                     switch (choice)
                     {
+                        case 0: return;
                         case 1:
                             engineerCRUD();
                             break;
@@ -204,17 +201,17 @@ namespace DalTest
                         case 3:
                             dependencyCRUD();
                             break;
-                        default:break;
+                        default:
+                            Console.WriteLine("Wrong choice");
+                            break;
                     }
-                }
-                while (choice != 0);
+                } while (choice != 0);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-            }
-            Main();
-        }
-        
+         }
+            Main(args);
+        }  
     }
 }
