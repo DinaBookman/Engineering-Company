@@ -36,8 +36,8 @@ internal class TaskImplementation : ITask
     /// <returns></returns>
     public Task? Read(int id)
     {
-        Task? foundTask = Tasks.Find(item => item.Id == id);
-        return foundTask;
+        var getTaskById = DataSource.Tasks.Where(task => task.Id == id);
+        return getTaskById;
     }
     /// <summary>
     /// returns all tasks in tasks list.
@@ -45,7 +45,10 @@ internal class TaskImplementation : ITask
     /// <returns></returns>
     public List<Task> ReadAll()
     {
-        return new List<Task>(DataSource.Tasks);
+        var allTasks =
+           from Task in DataSource.Tasks
+           select Task;
+        return allTasks;
     }
     /// <summary>
     /// updates a task from task list.

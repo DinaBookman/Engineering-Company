@@ -38,8 +38,8 @@ internal class EngineerImplementation : IEngineer
     /// <returns></returns>
     public Engineer? Read(int id)
     {
-        Engineer? foundEngineer = Engineers.Find(item => item.Id == id);
-        return foundEngineer;
+        var getEngineerById = DataSource.Engineers.Where(engineer => engineer.Id == id);
+        return getEngineerById;
     }
     /// <summary>
     /// returns all engineer from list.
@@ -47,7 +47,10 @@ internal class EngineerImplementation : IEngineer
     /// <returns></returns>
     public List<Engineer> ReadAll()
     {
-        return new List<Engineer>(DataSource.Engineers);
+        var allEngineers =
+            from engineer in DataSource.Engineers
+            select engineer;
+        return allEngineers;
     }
     /// <summary>
     /// update engineer.
@@ -57,18 +60,5 @@ internal class EngineerImplementation : IEngineer
     {
         Delete(engineer.Id);
         Create(engineer);
-    }
-    /// <summary>
-    /// //returns the engineers level by its id.
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    /// <exception cref="Exception"></exception>
-    public EngineerExperience GetLevel(int id)
-    {
-        Engineer? engineer = Read(id);
-        if (engineer is null)
-            throw new Exception($"Engineer with ID={id} does not exist");
-        return engineer.Level;
     }
 }

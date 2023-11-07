@@ -38,8 +38,8 @@ internal class DependencyImplementation : IDependency
     /// <returns></returns>
     public Dependency? Read(int id)
     {
-        Dependency? foundDependency = Dependencies.Find(item => item.Id == id);
-        return foundDependency;
+        var getDependencyById = DataSource.Dependencies.Where(dependency => dependency.Id == id);
+        return getDependencyById;
     }
     /// <summary>
     /// returns all dependency from dependency list.
@@ -47,7 +47,10 @@ internal class DependencyImplementation : IDependency
     /// <returns></returns>
     public List<Dependency> ReadAll()
     {
-        return new List<Dependency>(DataSource.Dependencies);
+        var allDependencies =
+            from Dependency in DataSource.Dependencies
+            select Dependency;
+        return allDependencies;
     }
     /// <summary>
     /// update a dependency.
