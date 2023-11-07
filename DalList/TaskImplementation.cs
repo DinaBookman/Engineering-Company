@@ -12,22 +12,22 @@ internal class TaskImplementation : ITask
      /// <returns></returns>
     public int Create(Task task)
     {
-        int id = DataSource.Config.NextTaskId;
+        int id = Config.NextTaskId;
         Task copy = task with { Id = id };
-        DataSource.Tasks.Add(copy);
+        Tasks.Add(copy);
         return id;
     }
    /// <summary>
    /// deletes task from task list.
    /// </summary>
    /// <param name="id"></param>
-   /// <exception cref="Exception"></exception>
+   /// <exception cref="DalDoesNotExistException"></exception>
     public void Delete(int id)
     {
         Task? toRemove = Read(id);
         if (toRemove is null)
-            throw new Exception($"Task with ID={id} does not exist");
-        DataSource.Tasks.Remove(toRemove);
+            throw new DalDoesNotExistException($"Task with ID={id} does not exist");
+        Tasks.Remove(toRemove);
     }
     /// <summary>
     /// finds a task by id.
@@ -36,19 +36,24 @@ internal class TaskImplementation : ITask
     /// <returns></returns>
     public Task? Read(int id)
     {
-        var getTaskById = DataSource.Tasks.Where(task => task.Id == id);
-        return getTaskById;
+        return Tasks.FirstOrDefault(task => task.Id == id) ?? null;
+    }
+    /// <summary>
+    /// returns a task by some attribute.
+    /// </summary>
+    /// <param name="filter">The attribute on which to search</param>
+    /// <returns></returns>
+    public Task? Read(Func<Task, bool> filter)
+    {
+        return Tasks.Where(filter).FirstOrDefault() ?? null;
     }
     /// <summary>
     /// returns all tasks in tasks list.
     /// </summary>
     /// <returns></returns>
-    public List<Task> ReadAll()
+    public IEnumerable<Task> ReadAll(Func<Task, bool>? filter = null)
     {
-        var allTasks =
-           from Task in DataSource.Tasks
-           select Task;
-        return allTasks;
+        return filter == null ? Tasks.Select(item => item) : Tasks.Where(filter);
     }
     /// <summary>
     /// updates a task from task list.

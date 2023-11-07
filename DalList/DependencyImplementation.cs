@@ -1,6 +1,7 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
+using System.Collections.Generic;
 using static Dal.DataSource;
 
 //using System.Collections.Generic;
@@ -14,22 +15,22 @@ internal class DependencyImplementation : IDependency
     /// <returns></returns>
     public int Create(Dependency dependency)
     {
-        int id = DataSource.Config.NextDependencyId;
+        int id = Config.NextDependencyId;
         Dependency copy = dependency with { Id = id };
-        DataSource.Dependencies.Add(copy);
+        Dependencies.Add(copy);
         return id;
     }
     /// <summary>
     /// deletes a dependency from list.
     /// </summary>
     /// <param name="id"></param>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="DalDoesNotExistException"></exception>
     public void Delete(int id)
     {
         Dependency? toRemove = Read(id);
         if (toRemove is null)
-            throw new Exception($"Dependency with ID={id} does not exist");
-        DataSource.Dependencies.Remove(toRemove);
+            throw new DalDoesNotExistException($"Dependency with ID={id} does not exist");
+        Dependencies.Remove(toRemove);
     }
     /// <summary>
     /// returns a dependency by id.
@@ -38,19 +39,24 @@ internal class DependencyImplementation : IDependency
     /// <returns></returns>
     public Dependency? Read(int id)
     {
-        var getDependencyById = DataSource.Dependencies.Where(dependency => dependency.Id == id);
-        return getDependencyById;
+        return Dependencies.FirstOrDefault(dependency => dependency.Id == id) ?? null;
+    }
+    /// <summary>
+    /// returns a dependency by some attribute.
+    /// </summary>
+    /// <param name="filter">The attribute on which to search</param>
+    /// <returns></returns>
+    public Dependency? Read(Func<Dependency, bool> filter)
+    {
+        return Dependencies.Where(filter).FirstOrDefault() ?? null;
     }
     /// <summary>
     /// returns all dependency from dependency list.
     /// </summary>
     /// <returns></returns>
-    public List<Dependency> ReadAll()
+    public IEnumerable<Dependency> ReadAll(Func<Dependency, bool>? filter = null)
     {
-        var allDependencies =
-            from Dependency in DataSource.Dependencies
-            select Dependency;
-        return allDependencies;
+       return filter == null ? Dependencies.Select(item => item) : Dependencies.Where(filter);
     }
     /// <summary>
     /// update a dependency.
@@ -62,4 +68,3 @@ internal class DependencyImplementation : IDependency
         Create(dependency);
     }
 }
-dfgb

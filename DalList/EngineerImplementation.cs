@@ -1,35 +1,36 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
+using System.Collections.Generic;
 using static Dal.DataSource;
 //using System.Collections.Generic;
 
 internal class EngineerImplementation : IEngineer
-{  
-     /// <summary>
-     /// creates an engineer and adds it to the engineer list.
-     /// </summary>
-     /// <param name="engineer"></param>
-     /// <returns></returns>
-     /// <exception cref="Exception"></exception>
+{
+    /// <summary>
+    /// creates an engineer and adds it to the engineer list.
+    /// </summary>
+    /// <param name="engineer"></param>
+    /// <returns></returns>
+    /// <exception cref="DalAlreadyExistsException"></exception>
     public int Create(Engineer engineer)
     {
         if (Read(engineer.Id) is not null)
-            throw new Exception($"Engineer with ID={engineer.Id} already exists");
-        DataSource.Engineers.Add(engineer);
+            throw new DalAlreadyExistsException($"Engineer with ID={engineer.Id} already exists");
+        Engineers.Add(engineer);
         return engineer.Id;
     }
     /// <summary>
     /// deletes engineer from list.
     /// </summary>
     /// <param name="id"></param>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="DalDoesNotExistException"></exception>
     public void Delete(int id)
     {
         Engineer? toRemove = Read(id);
         if (toRemove is null)
-            throw new Exception($"Engineer with ID={id} does not exist");
-        DataSource.Engineers.Remove(toRemove);
+            throw new DalDoesNotExistException($"Engineer with ID={id} does not exist");
+        Engineers.Remove(toRemove);
     }
     /// <summary>
     /// finds engineer by id.
@@ -38,19 +39,24 @@ internal class EngineerImplementation : IEngineer
     /// <returns></returns>
     public Engineer? Read(int id)
     {
-        var getEngineerById = DataSource.Engineers.Where(engineer => engineer.Id == id);
-        return getEngineerById;
+        return Engineers.FirstOrDefault(engineer => engineer.Id == id) ?? null;
+    }
+    /// <summary>
+    /// returns a engineer by some attribute.
+    /// </summary>
+    /// <param name="filter">The attribute on which to search</param>
+    /// <returns></returns>
+    public Engineer? Read(Func<Engineer, bool> filter)
+    {
+        return Engineers.Where(filter).FirstOrDefault() ?? null;
     }
     /// <summary>
     /// returns all engineer from list.
     /// </summary>
     /// <returns></returns>
-    public List<Engineer> ReadAll()
+    public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null)
     {
-        var allEngineers =
-            from engineer in DataSource.Engineers
-            select engineer;
-        return allEngineers;
+        return filter == null ? Engineers.Select(item => item) : Engineers.Where(filter);
     }
     /// <summary>
     /// update engineer.
