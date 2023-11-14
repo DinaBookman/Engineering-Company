@@ -10,7 +10,7 @@
 /// <param name="ScheduledDate">the original date on which it should be completed</param>
 /// <param name="DeadlineDate">a revised scheduled completion date</param>
 /// <param name="EngineerId"></param>
-/// <param name="CopmlexityLevel">task: minimum expirience for engineer to assign</param>
+/// <param name="CopmlexityLevel">task: minimum experience for engineer to assign</param>
 /// <param name="IsMilestone"></param>
 ///<param name="Remarks">free remarks from project meetings.</param>
 public record Task
