@@ -36,7 +36,7 @@ static class XMLTools
         }
         catch (Exception ex)
         {
-            // DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {dir + filePath}", ex);
+            //DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {dir + filePath}", ex);
             throw new Exception($"fail to create xml file: {filePath}", ex);
         }
     }
