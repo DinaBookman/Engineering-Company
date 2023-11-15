@@ -4,7 +4,7 @@
 /// </summary>
 /// <param name="Id">Personal unique ID of engineer (as in national id card)</param>
 /// <param name="Name">engineer's name</param>
-/// <param name="Email">engineer's email adrres</param>
+/// <param name="Email">engineer's email address</param>
 /// <param name="Level">engineer's level can either be a manager or engineer</param>
 /// <param name="Cost">salary per hour</param>
 public record Engineer
@@ -14,4 +14,7 @@ public record Engineer
    string Email,
    EngineerExperience Level,
    double Cost
-);
+)
+{
+    public Engineer() : this(0) { } //empty ctor for stage 3
+};

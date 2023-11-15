@@ -30,34 +30,6 @@ public record Task
 )
 {
     DateTime? CompleteDate;//real completion date.
-    string? Deliverables;//description of deliverables for MS copmletion. 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    string? Deliverables;//description of deliverables for MS completion.
+    public Task() : this(0) { } //empty ctor for stage 3
+};
