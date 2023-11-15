@@ -10,11 +10,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalFacade", "DalFacade\DalFacade.csproj", "{73411121-2A4D-4735-B7EE-9BE49735665A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalFacade", "DalFacade\DalFacade.csproj", "{73411121-2A4D-4735-B7EE-9BE49735665A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalList", "DalList\DalList.csproj", "{BA9F7783-70B3-40BD-B2D6-F78A59F79688}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalList", "DalList\DalList.csproj", "{BA9F7783-70B3-40BD-B2D6-F78A59F79688}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalTest", "DalTest\DalTest.csproj", "{6B327DA0-9C42-418E-AE6A-7F22D6566CC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalTest", "DalTest\DalTest.csproj", "{6B327DA0-9C42-418E-AE6A-7F22D6566CC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalXml", "DalXml\DalXml.csproj", "{5E22281A-E1D5-4874-9D82-D2B8B71EDD7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{6F4C5101-8948-4DD8-A7A4-22A2F6E193A4}"
+	ProjectSection(SolutionItems) = preProject
+		data-config.xml = data-config.xml
+		dependencies.xml = dependencies.xml
+		engineers.xml = engineers.xml
+		tasks.xml = tasks.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +48,10 @@ Global
 		{6B327DA0-9C42-418E-AE6A-7F22D6566CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B327DA0-9C42-418E-AE6A-7F22D6566CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B327DA0-9C42-418E-AE6A-7F22D6566CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E22281A-E1D5-4874-9D82-D2B8B71EDD7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E22281A-E1D5-4874-9D82-D2B8B71EDD7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E22281A-E1D5-4874-9D82-D2B8B71EDD7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E22281A-E1D5-4874-9D82-D2B8B71EDD7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
