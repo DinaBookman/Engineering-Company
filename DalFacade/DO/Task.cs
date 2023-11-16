@@ -29,7 +29,7 @@ public record Task
     string? Remarks
 )
 {
+    public Task() : this(0) { } //empty ctor for stage 3
     DateTime? CompleteDate;//real completion date.
     string? Deliverables;//description of deliverables for MS completion.
-    public Task() : this(0) { } //empty ctor for stage 3
 };
