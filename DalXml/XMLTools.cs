@@ -16,8 +16,8 @@ static class XMLTools
 
     #region Extension Fuctions
     public static T? ToEnumNullable<T>(this XElement element, string name) where T : struct, Enum =>
-        Enum.TryParse<T>((string?)element.Element(name), out var result) ? (T?)result : null;
-
+       Enum.TryParse<T>((string?)element.Element(name), out var result) ? (T?)result : null;
+     
     public static DateTime? ToDateTimeNullable(this XElement element, string name) =>
         DateTime.TryParse((string?)element.Element(name), out var result) ? (DateTime?)result : null;
 
@@ -116,5 +116,15 @@ static class XMLTools
             // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {dir + filePath}", ex);            }
             throw new Exception($"fail to load xml file: {filePath}", ex);
         }
+    }
+
+    internal static object ToEnumNullable<T>(object engineerLevel, string v)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static object ToEnumNullable<T>(XElement e)
+    {
+        throw new NotImplementedException();
     }
 }
