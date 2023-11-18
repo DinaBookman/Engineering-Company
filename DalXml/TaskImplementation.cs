@@ -102,8 +102,9 @@ internal class TaskImplementation : ITask
         //checks if the list is empty.
         if (tasksList == null)
             throw new DalDoesNotExistException("There is no tasks.");
-      
-        return filter == null ? tasksList.Select(item => item) : tasksList.Where(filter);
+
+        //returns all the list if there is no filter, and the items that the given func returns true for them, if there is a filter.
+        return (filter == null ? tasksList.Select(item => item) : tasksList.Where(filter!))!;
     }
 
     public void Update(DO.Task task)
