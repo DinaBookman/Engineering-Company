@@ -56,7 +56,8 @@ internal class DependencyImplementation : IDependency
     /// <returns></returns>
     public IEnumerable<Dependency> ReadAll(Func<Dependency, bool>? filter = null)
     {
-       return filter == null ? Dependencies.Select(item => item) : Dependencies.Where(filter);
+        //returns all the list if there is no filter, and the items that the given func returns true for them, if there is a filter.
+        return filter == null ? Dependencies.Select(item => item) : Dependencies.Where(filter);
     }
     /// <summary>
     /// update a dependency.

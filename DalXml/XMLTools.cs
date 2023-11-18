@@ -1,4 +1,6 @@
 ﻿namespace Dal;
+
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -62,7 +64,7 @@ static class XMLTools
 
     #region SaveLoadWithXMLSerializer
     //static readonly bool s_writing = false;
-    public static void SaveListToXMLSerializer<T>(List<T?> list, string entity) where T : struct
+    public static void SaveListToXMLSerializer<T>(List<T?> list, string entity) where T : class
     {
         string filePath = $"{s_dir + entity}.xml";
         try
@@ -77,7 +79,7 @@ static class XMLTools
         }
     }
 
-    public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : struct
+    public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
         string filePath = $"{s_dir + entity}.xml";
         try
@@ -94,4 +96,25 @@ static class XMLTools
         }
     }
     #endregion
+
+    public static int GetAndIncreaseNextId(string entity, string elementName)
+    {
+        string filePath = $"{s_dir + entity}.xml";
+        try
+        {
+            if (!File.Exists(filePath)) return new();
+            using FileStream file1 = new(filePath, FileMode.Open);
+            XmlSerializer x = new(typeof(int?));
+            int nextId =  x.Deserialize(file1) as int? ?? new();
+
+            using FileStream file2 = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            new XmlSerializer(typeof(int)).Serialize(file2, nextId);
+            return nextId;
+        }
+        catch (Exception ex)
+        {
+            // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {dir + filePath}", ex);            }
+            throw new Exception($"fail to load xml file: {filePath}", ex);
+        }
+    }
 }

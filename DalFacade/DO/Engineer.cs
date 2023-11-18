@@ -16,5 +16,5 @@ public record Engineer
    double Cost
 )
 {
-    public Engineer() : this(0) { } //empty ctor for stage 3
+    public Engineer() : this(0, "", "", EngineerExperience.AdvancedBeginner, 0) { } //empty ctor for stage 3
 };

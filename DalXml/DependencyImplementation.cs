@@ -6,33 +6,109 @@ using System.Collections.Generic;
 
 internal class DependencyImplementation : IDependency
 {
-    public int Create(Dependency item)
+    const string DEPENDENCYENTITY = "dependencies";
+    /// <summary>
+    /// creates a Dependency and adds it to Dependencies list.
+    /// </summary>
+    /// <param name="dependency"></param>
+    /// <returns></returns>
+    public int Create(DO.Dependency dependency)
     {
-        throw new NotImplementedException();
+        int id = Config.NextDependencyId;
+        DO.Dependency copy = dependency with { Id = id };
+
+        //Bringing the list of Dependencies from the file.
+        List<DO.Dependency?> dependenciesList = XMLTools.LoadListFromXMLSerializer<DO.Dependency>(DEPENDENCYENTITY);
+
+        //Adding a new Dependency to the list.
+        dependenciesList?.Add(copy);
+
+        //Returning the list to the xml file.
+        XMLTools.SaveListToXMLSerializer<DO.Dependency>(dependenciesList!, DEPENDENCYENTITY);
+
+        return id;
     }
 
+    /// <summary>
+    /// deletes dependency from dependencies list.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="DalDoesNotExistException"></exception>
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        DO.Dependency? toRemove = Read(id);
+        if (toRemove is null)
+            throw new DalDoesNotExistException($"Dependency with ID={id} does not exist");
+
+        //Bringing the list of Dependencies from the file.
+        List<DO.Dependency?> dependenciesList = XMLTools.LoadListFromXMLSerializer<DO.Dependency>(DEPENDENCYENTITY);
+
+        //Removing the Dependency from the list.
+        dependenciesList!.Remove(toRemove);
+
+        //Returning the list to the xml file.
+        XMLTools.SaveListToXMLSerializer<DO.Dependency>(dependenciesList, DEPENDENCYENTITY);
     }
 
-    public Dependency? Read(int id)
+    /// <summary>
+    /// finds a dependency by id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public DO.Dependency? Read(int id)
     {
-        throw new NotImplementedException();
+        //Bringing the list of dependencies from the file.
+        List<DO.Dependency?> dependenciesList = XMLTools.LoadListFromXMLSerializer<DO.Dependency>(DEPENDENCYENTITY);
+
+        //searching the dependency in the list.
+        if (dependenciesList == null)
+            throw new DalDoesNotExistException("There is no dependencies.");
+        DO.Dependency? foundDependency = dependenciesList.FirstOrDefault(dependency => dependency!.Id == id) ?? null;
+        if (foundDependency == null)
+            throw new DalDoesNotExistException("The dependency didn't found.");
+
+        return foundDependency;
+    }
+    /// <summary>
+    /// returns a dependency by some attribute.
+    /// </summary>
+    /// <param name="filter">The attribute on which to search</param>
+    /// <returns></returns>
+    public DO.Dependency? Read(Func<DO.Dependency, bool> filter)
+    {
+        //Bringing the list of dependencies from the file.
+        List<DO.Dependency?> dependenciesList = XMLTools.LoadListFromXMLSerializer<DO.Dependency>(DEPENDENCYENTITY);
+
+        //searching the dependency in the list.
+        if (dependenciesList == null)
+            throw new DalDoesNotExistException("There is no dependencies.");
+        DO.Dependency? foundDependency = dependenciesList.Where(filter!).FirstOrDefault() ?? null;
+        if (foundDependency == null)
+            throw new DalDoesNotExistException("The dependency didn't found.");
+
+        return foundDependency;
     }
 
-    public Dependency? Read(Func<Dependency, bool> filter)
+    /// <summary>
+    /// returns all dependencies in dependencies list.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<DO.Dependency> ReadAll(Func<DO.Dependency, bool>? filter = null)
     {
-        throw new NotImplementedException();
+        //Bringing the list of Dependencies from the file.
+        List<DO.Dependency?> dependenciesList = XMLTools.LoadListFromXMLSerializer<DO.Dependency>(DEPENDENCYENTITY);
+
+        //checks if the list is empty.
+        if (dependenciesList == null)
+            throw new DalDoesNotExistException("There is no dependencies.");
+
+        //returns all the list if there is no filter, and the items that the given func returns true for them, if there is a filter.
+        return (filter == null ? dependenciesList.Select(item => item) : dependenciesList.Where(filter!))!;
     }
 
-    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
+    public void Update(DO.Dependency dependency)
     {
-        throw new NotImplementedException();
-    }
-
-    public void Update(Dependency item)
-    {
-        throw new NotImplementedException();
+        Delete(dependency.Id);
+        Create(dependency);
     }
 }
