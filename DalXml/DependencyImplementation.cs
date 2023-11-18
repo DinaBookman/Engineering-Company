@@ -102,7 +102,8 @@ internal class DependencyImplementation : IDependency
         if (dependenciesList == null)
             throw new DalDoesNotExistException("There is no dependencies.");
 
-        return filter == null ? dependenciesList.Select(item => item) : dependenciesList.Where(filter);
+        //returns all the list if there is no filter, and the items that the given func returns true for them, if there is a filter.
+        return (filter == null ? dependenciesList.Select(item => item) : dependenciesList.Where(filter!))!;
     }
 
     public void Update(DO.Dependency dependency)

@@ -304,8 +304,8 @@ internal class Program
                     s_dal!.Dependency.Read(Convert.ToInt32(Console.ReadLine()));
                     break;
                 case 3:
-                    foreach (var item in s_dal!.Dependency.ReadAll())
-                        Console.WriteLine($"id: {item.Id}  task id: {item.DependentTask}  pervious task id: {item.DependsOnTask}");
+                    foreach (var dependency in s_dal!.Dependency.ReadAll())
+                        Console.WriteLine($"id: {dependency!.Id}  task id: {dependency.DependentTask}  pervious task id: {dependency.DependsOnTask}");
                     break;
                 case 4:
                     updateDependency();
