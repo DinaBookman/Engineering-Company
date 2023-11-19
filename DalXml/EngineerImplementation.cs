@@ -7,10 +7,14 @@ using System.Linq;
 using System.Net.Security;
 using System.Reflection.Emit;
 using System.Xml.Linq;
-
 internal class EngineerImplementation : IEngineer
 {
     const string s_engineers = "engineer";
+    /// <summary>
+    ///  Gets an engineer.
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
     static Engineer? GetEngineer(XElement e) =>
         e.ToIntNullable("Id") is null ? null : new Engineer()
         {
@@ -19,8 +23,13 @@ internal class EngineerImplementation : IEngineer
             Email = (string)e.Element("Email")!,
             Level = (EngineerExperience)e.Element("Level")!,
             Cost = (double)e.Element("Cost")!
-             
+
         };
+    /// <summary>
+    /// Creates an engineer element.
+    /// </summary>
+    /// <param name="engineer"></param>
+    /// <returns></returns>
     static IEnumerable<XElement> CreateEngineerElement(Engineer engineer)
     {
 
@@ -33,28 +42,50 @@ internal class EngineerImplementation : IEngineer
         yield return new XElement("Cost", engineer.Cost);
 
     }
+
+    /// <summary>
+    /// finds an engineer by Id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     public Engineer Read(int id) =>
         (Engineer)GetEngineer(XMLTools.LoadListFromXMLElement(s_engineers)?.Elements()
         .FirstOrDefault(st => st.ToIntNullable("ID") == id)
         // fix to: throw new DalMissingIdException(id);
         ?? throw new Exception("missing id"))!;
 
-  public Engineer Read(Func<Engineer, bool> filter) =>
- (Engineer)GetEngineer(XMLTools.LoadListFromXMLElement(s_engineers)?.Elements()
- .Where(filter!).FirstOrDefault())
-// fix to: throw new DalMissingIdException(id);
-?? throw new Exception("missing id")!;
+    /// <summary>
+    /// finds an engineer by specific attribute using filter.
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public Engineer Read(Func<Engineer, bool> filter) =>
+   (Engineer)GetEngineer(XMLTools.LoadListFromXMLElement(s_engineers)?.Elements()
+   .Where(filter!).FirstOrDefault())
+  // fix to: throw new DalMissingIdException(id);
+  ?? throw new Exception("missing id")!;
 
 
-
-    public IEnumerable<Engineer?>ReadAll(Func<Engineer, bool>? filter = null) =>
+    /// <summary>
+    /// returns all engineers
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null) =>
         filter is null
         ? XMLTools.LoadListFromXMLElement(s_engineers).Elements().Select(s => GetEngineer(s))
         : XMLTools.LoadListFromXMLElement(s_engineers).Elements().Select(s => GetEngineer(s)).Where(filter!);
 
+    /// <summary>
+    /// creates a new engineer.
+    /// </summary>
+    /// <param name="engineer"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     public int Create(Engineer engineer)
     {
-        XElement  engineersRootElem = XMLTools.LoadListFromXMLElement(s_engineers);
+        XElement engineersRootElem = XMLTools.LoadListFromXMLElement(s_engineers);
 
         if (XMLTools.LoadListFromXMLElement(s_engineers)?.Elements()
             .FirstOrDefault(st => st.ToIntNullable("ID") == engineer.Id) is not null)
@@ -66,6 +97,12 @@ internal class EngineerImplementation : IEngineer
 
         return engineer.Id; ;
     }
+
+    /// <summary>
+    /// deletes an engineer from data using a list.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="Exception"></exception>
     public void Delete(int id)
     {
         XElement engineersRootElem = XMLTools.LoadListFromXMLElement(s_engineers);
@@ -77,10 +114,13 @@ internal class EngineerImplementation : IEngineer
 
         XMLTools.SaveListToXMLElement(engineersRootElem, s_engineers);
     }
+    /// <summary>
+    /// updates an engineer
+    /// </summary>
+    /// <param name="engineer"></param>
     public void Update(Engineer engineer)
     {
-        Delete( engineer.Id);
+        Delete(engineer.Id);
         Create(engineer);
     }
 }
-  
