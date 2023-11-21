@@ -142,7 +142,7 @@ internal class Program
         string? name, email, rank, costString;
         int id;
         double cost;
-        EngineerExperience engineerLevel;
+        EngineerExperience? engineerLevel;
         Console.WriteLine("Enter engineer's id:");
         id = Convert.ToInt32(Console.ReadLine());
         Engineer? returnEngineer = s_dal!.Engineer.Read(x => x.Id == id);
@@ -354,7 +354,23 @@ internal class Program
                 }
             } while (choice != 0);
         }
-        catch (Exception e)
+         catch (DalDoesNotExistException e)
+        {
+            Console.WriteLine(e);
+        }
+        catch (DalAlreadyExistsException e)
+        {
+            Console.WriteLine(e);
+        }
+        catch (DalDeletionImpossible e)
+        {
+            Console.WriteLine(e);
+        }
+        catch (DalXMLFileLoadCreateException e)
+        {
+            Console.WriteLine(e);
+        }
+        catch (FormatException e)
         {
             Console.WriteLine(e);
         }

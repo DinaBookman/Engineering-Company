@@ -31,13 +31,13 @@ public static class Initialization
         foreach (var _name in engineerNames)
         {
             //Creates random ids.
-            int _id;
+            int id;
             do
-                _id = s_rand.Next(MIN_ID, MAX_ID);
-            while (s_dal!.Engineer!.Read(_id) != null);
+                id = s_rand.Next(MIN_ID, MAX_ID);
+            while (s_dal!.Engineer!.Read(id) != null);
 
             //Creates new Engineer. 
-            Engineer newEngineer = new(_id, _name, $"{_id}@gmail.com", (EngineerExperience)1, 200.35);
+            Engineer newEngineer = new(id, _name, $"{id}@gmail.com", (EngineerExperience)1, 200.35);
             s_dal!.Engineer!.Create(newEngineer);
         }
     }
@@ -67,18 +67,19 @@ public static class Initialization
         "Update Data in file fhu8476.txt",
         "Add Enum to Project i3764"
         };
-        foreach (var _description in TaskDescriptions)
+        foreach (var description in TaskDescriptions)
         {
             //Date of creation - random date within the recent year.
             int range = s_rand.Next(-365, 0); //1 year
-            DateTime _createdAtDate = DateTime.Today.AddDays(range);
+            DateTime createdAtDate = DateTime.Today.AddDays(range);
 
             //chooses random task level.
-            int _level;
-            _level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);
+            int level;
+            level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);
 
+            Nullable<int> i = null;
             //Creates new Task.
-            Task newTask = new(0000, _description, null, _createdAtDate, null, null, null, null, null, (EngineerExperience)_level, false,null);
+            Task newTask = new(0000, description, null, createdAtDate, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, i, (EngineerExperience)level, false, null);
             s_dal!.Task!.Create(newTask);
         }
     }

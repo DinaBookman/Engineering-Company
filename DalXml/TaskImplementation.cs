@@ -19,7 +19,7 @@ internal class TaskImplementation : ITask
         DO.Task copy = task with { Id = id };
 
         //Bringing the list of tasks from the file.
-        List<DO.Task?> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
+        List<DO.Task> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
 
         //Adding a new task to the list.
         tasksList?.Add(copy);
@@ -42,7 +42,7 @@ internal class TaskImplementation : ITask
             throw new DalDoesNotExistException($"Task with ID={id} does not exist");
 
         //Bringing the list of tasks from the file.
-        List<DO.Task?> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
+        List<DO.Task> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
 
         //Removing the task from the list.
         tasksList!.Remove(toRemove);
@@ -59,14 +59,16 @@ internal class TaskImplementation : ITask
     public DO.Task? Read(int id)
     {
         //Bringing the list of tasks from the file.
-        List<DO.Task?> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
+        List<DO.Task> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
 
         //searching the task in the list.
         if (tasksList == null)
-            throw new DalDoesNotExistException("There is no tasks.");
+            return null;
+            //throw new DalDoesNotExistException("There is no tasks.");
         DO.Task? foundTask = tasksList.FirstOrDefault(task => task!.Id == id) ?? null;
         if(foundTask == null)
-            throw new DalDoesNotExistException("The task didn't found.");
+            return null;
+            //throw new DalDoesNotExistException("The task didn't found.");
 
         return foundTask;  
     }
@@ -78,14 +80,16 @@ internal class TaskImplementation : ITask
     public DO.Task? Read(Func<DO.Task, bool> filter)
     {
         //Bringing the list of tasks from the file.
-        List<DO.Task?> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
+        List<DO.Task> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
 
         //searching the task in the list.
         if (tasksList == null)
-            throw new DalDoesNotExistException("There is no tasks.");
-        DO.Task? foundTask = tasksList.Where(filter).FirstOrDefault() ?? null;
+            return null;
+           // throw new DalDoesNotExistException("There is no tasks.");
+        DO.Task? foundTask = tasksList.Where(filter!).FirstOrDefault() ?? null;
         if (foundTask == null)
-            throw new DalDoesNotExistException("The task didn't found.");
+            return null;
+            //throw new DalDoesNotExistException("The task didn't found.");
 
         return foundTask;
     }
@@ -97,7 +101,7 @@ internal class TaskImplementation : ITask
     public IEnumerable<DO.Task> ReadAll(Func<DO.Task, bool>? filter = null)
     {
         //Bringing the list of tasks from the file.
-        List<DO.Task?> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
+        List<DO.Task> tasksList = XMLTools.LoadListFromXMLSerializer<DO.Task>(TASKENTITY);
 
         //checks if the list is empty.
         if (tasksList == null)

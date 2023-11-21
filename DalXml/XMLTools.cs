@@ -1,23 +1,23 @@
 ﻿namespace Dal;
 
-using System.Collections.Generic;
+using DO;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
 static class XMLTools
 {
-    const string s_dir = @"..\xml\";
+    const string s_xml_dir = @"..\xml\";
     static XMLTools()
     {
-        if (!Directory.Exists(s_dir))
-            Directory.CreateDirectory(s_dir);
+        if (!Directory.Exists(s_xml_dir))
+            Directory.CreateDirectory(s_xml_dir);
     }
 
     #region Extension Fuctions
     public static T? ToEnumNullable<T>(this XElement element, string name) where T : struct, Enum =>
-       Enum.TryParse<T>((string?)element.Element(name), out var result) ? (T?)result : null;
-     
+        Enum.TryParse<T>((string?)element.Element(name), out var result) ? (T?)result : null;
+
     public static DateTime? ToDateTimeNullable(this XElement element, string name) =>
         DateTime.TryParse((string?)element.Element(name), out var result) ? (DateTime?)result : null;
 
@@ -26,26 +26,38 @@ static class XMLTools
 
     public static int? ToIntNullable(this XElement element, string name) =>
         int.TryParse((string?)element.Element(name), out var result) ? (int?)result : null;
+
+    #endregion
+
+    #region XmlConfig
+    public static int GetAndIncreaseNextId(string data_config_xml, string elemName)
+    {
+        XElement root = LoadListFromXMLElement(data_config_xml);
+        int nextId = root.ToIntNullable(elemName) ?? throw new FormatException($"can't convert id.  {data_config_xml}, {elemName}");
+        root.Element(elemName)?.SetValue((nextId + 1).ToString());
+        XMLTools.SaveListToXMLElement(root, data_config_xml);
+        return nextId;
+    }
+
     #endregion
 
     #region SaveLoadWithXElement
     public static void SaveListToXMLElement(XElement rootElem, string entity)
     {
-        string filePath = $"{s_dir + entity}.xml";
+        string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
             rootElem.Save(filePath);
         }
         catch (Exception ex)
         {
-            //DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {dir + filePath}", ex);
-            throw new Exception($"fail to create xml file: {filePath}", ex);
+            throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xml_dir + filePath}, {ex.Message}");
         }
     }
 
     public static XElement LoadListFromXMLElement(string entity)
     {
-        string filePath = $"{s_dir + entity}.xml";
+        string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
             if (File.Exists(filePath))
@@ -56,75 +68,45 @@ static class XMLTools
         }
         catch (Exception ex)
         {
-            //new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {dir + filePath}", ex);
-            throw new Exception($"fail to load xml file: {filePath}", ex);
+            throw new DalXMLFileLoadCreateException($"fail to load xml file: {s_xml_dir + filePath}, {ex.Message}");
         }
     }
     #endregion
 
     #region SaveLoadWithXMLSerializer
-    //static readonly bool s_writing = false;
-    public static void SaveListToXMLSerializer<T>(List<T?> list, string entity) where T : class
+    //public static void SaveListToXMLSerializer<T>(List<T?> list, string entity) where T : struct
+    public static void SaveListToXMLSerializer<T>(List<T> list, string entity) where T : class
     {
-        string filePath = $"{s_dir + entity}.xml";
+        string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
             using FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            new XmlSerializer(typeof(List<T?>)).Serialize(file, list);
+            new XmlSerializer(typeof(List<T>)).Serialize(file, list);
+            //new XmlSerializer(typeof(List<T?>)).Serialize(file, list);
         }
         catch (Exception ex)
         {
-            // DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {dir + filePath}", ex);            }
-            throw new Exception($"fail to create xml file: {filePath}", ex);
+            throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xml_dir + filePath}, {ex.Message}");
         }
     }
 
-    public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : class
+    //public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : struct
+    public static List<T> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
-        string filePath = $"{s_dir + entity}.xml";
+        string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
             if (!File.Exists(filePath)) return new();
             using FileStream file = new(filePath, FileMode.Open);
-            XmlSerializer x = new(typeof(List<T?>));
-            return x.Deserialize(file) as List<T?> ?? new();
+            XmlSerializer x = new(typeof(List<T>));
+            return x.Deserialize(file) as List<T> ?? new();
+            //XmlSerializer x = new(typeof(List<T?>));
+            //return x.Deserialize(file) as List<T?> ?? new();
         }
         catch (Exception ex)
         {
-            // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {dir + filePath}", ex);            }
-            throw new Exception($"fail to load xml file: {filePath}", ex);
+            throw new DalXMLFileLoadCreateException($"fail to load xml file: {filePath}, {ex.Message}");
         }
     }
     #endregion
-
-    public static int GetAndIncreaseNextId(string entity, string elementName)
-    {
-        string filePath = $"{s_dir + entity}.xml";
-        try
-        {
-            if (!File.Exists(filePath)) return new();
-            using FileStream file1 = new(filePath, FileMode.Open);
-            XmlSerializer x = new(typeof(int?));
-            int nextId =  x.Deserialize(file1) as int? ?? new();
-
-            using FileStream file2 = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            new XmlSerializer(typeof(int)).Serialize(file2, nextId);
-            return nextId;
-        }
-        catch (Exception ex)
-        {
-            // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {dir + filePath}", ex);            }
-            throw new Exception($"fail to load xml file: {filePath}", ex);
-        }
-    }
-
-    internal static object ToEnumNullable<T>(object engineerLevel, string v)
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static object ToEnumNullable<T>(XElement e)
-    {
-        throw new NotImplementedException();
-    }
 }

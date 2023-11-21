@@ -32,3 +32,11 @@ public class DalXMLFileLoadCreateException : Exception
 {
     public DalXMLFileLoadCreateException(string? message) : base(message) { }
 }
+/// <summary>
+/// Exception for format.
+/// </summary>
+public class FormatException : Exception
+{
+    public FormatException(string? message) : base(message) { }
+}
+

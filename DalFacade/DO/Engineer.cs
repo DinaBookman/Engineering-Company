@@ -12,7 +12,7 @@ public record Engineer
    int Id,
    string Name,
    string Email,
-   EngineerExperience Level,
+   EngineerExperience? Level,
    double Cost
 )
 {
