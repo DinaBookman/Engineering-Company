@@ -67,25 +67,27 @@ public static class Initialization
         "Update Data in file fhu8476.txt",
         "Add Enum to Project i3764"
         };
+        string[] aliases = { "add road", "built a shop", "painting", "help mother", "plan party" };
+        IEnumerable<Engineer> engineers = s_dal!.Engineer!.ReadAll(ele => { return true; })!;
         foreach (var description in TaskDescriptions)
         {
-            //Date of creation - random date within the recent year.
-            int range = s_rand.Next(-365, 0); //1 year
-            DateTime createdAtDate = DateTime.Today.AddDays(range);
-
-            //chooses random task level.
-            int level;
-            level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);
+            string alias = aliases[s_rand.Next(5)]; //random an Alias from the arr.
+            TimeSpan span = new(s_rand.Next(300));
+            DateTime createdAtDate = DateTime.Today - span; //Date of creation - random date within the recent year.
+            DateTime deadline = createdAtDate.AddDays(s_rand.Next(500));
+            int engineerId = engineers.ElementAt(s_rand.Next(5)).Id;
+            int level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);//chooses random task level.
 
             //Creates new Task.
-            Task newTask = new(0000, description, null, createdAtDate, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, null, (EngineerExperience)level, false, null);
+            Task newTask = new(0, description, alias, createdAtDate, null, null, deadline,
+                           null, engineerId, (EngineerExperience)level, false, null);
             s_dal!.Task!.Create(newTask);
         }
     }
    
     private static void createDependencies()
     {
-        //Create dependencies between Tasks. Every Task with Id 1016 - 1020 dependes of Tasks with Id 1000 - 1010.
+        //Create dependencies between Tasks. Every Task with Id 1016 - 1020 dependes on Tasks with Id 1000 - 1010.
         for(int i = 1016; i < 1020; i++)
         {
             for (int j = 1000; j < 1010; j++)
@@ -99,8 +101,8 @@ public static class Initialization
     public static void Do(IDal? dal)
     {
         s_dal = dal ?? throw new NullReferenceException("DAL can not be null!");
-        createTasks();
         createEngineers();
+        createTasks();
         createDependencies();
     }
 }

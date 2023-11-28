@@ -223,7 +223,7 @@ internal class Program
                     s_dal!.Engineer.Create(CreateEngineer());
                     break;
                 case 2:
-                    Console.WriteLine("Please enter Engineers Id");
+                    Console.WriteLine("Please enter Engineers Id:");
                     Console.WriteLine(s_dal!.Engineer.Read(Convert.ToInt32(Console.ReadLine())));
                     break;
                 case 3:

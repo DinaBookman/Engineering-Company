@@ -54,7 +54,7 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="DalDoesNotExistException"></exception>
     public Engineer? Read(int id) =>
          GetEngineer(XMLTools.LoadListFromXMLElement(s_engineers)?.Elements()
-        .FirstOrDefault(st => st.ToIntNullable("ID") == id) ?? null);
+        .FirstOrDefault(st => st.ToIntNullable("Id") == id) ?? null);
 
         //fix to: throw new DalMissingIdException(id);
          //?? throw new DalDoesNotExistException($"Engineer with ID={id} does not exist"))!;
@@ -112,7 +112,7 @@ internal class EngineerImplementation : IEngineer
 
         (engineersRootElem.Elements()
             // fix to: throw new DalMissingIdException(id);
-            .FirstOrDefault(st => (int?)st.Element("ID") == id) ?? throw new DalDoesNotExistException("missing id"))
+            .FirstOrDefault(st => (int?)st.Element("Id") == id) ?? throw new DalDoesNotExistException("missing id"))
             .Remove();
 
         XMLTools.SaveListToXMLElement(engineersRootElem, s_engineers);

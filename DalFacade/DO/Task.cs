@@ -17,7 +17,7 @@ public record Task
 (
     int Id,
     string Description,
-    string? Alias,
+    string Alias,
     DateTime CreatedAtDate,
     DateTime? StartDate,
     DateTime? ScheduledDate,
@@ -29,7 +29,8 @@ public record Task
     string? Remarks
 )
 {
-    public Task() : this(0, "", null, DateTime.Now, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, null, EngineerExperience.AdvancedBeginner, false, null) { } //empty ctor for stage 3
+    public Task() : this(0, "", "", DateTime.Now, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,
+                         null, EngineerExperience.AdvancedBeginner, false, null) { } //empty ctor for stage 3
     DateTime? CompleteDate;//real completion date.
     string? Deliverables;//description of deliverables for MS completion.
 };
