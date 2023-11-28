@@ -77,9 +77,8 @@ public static class Initialization
             int level;
             level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);
 
-            Nullable<int> i = null;
             //Creates new Task.
-            Task newTask = new(0000, description, null, createdAtDate, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, i, (EngineerExperience)level, false, null);
+            Task newTask = new(0000, description, null, createdAtDate, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, null, (EngineerExperience)level, false, null);
             s_dal!.Task!.Create(newTask);
         }
     }
