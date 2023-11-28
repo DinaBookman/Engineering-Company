@@ -78,7 +78,8 @@ internal class Program
     private static void updateTask()
     {
         Console.WriteLine("Enter task's id:");
-        int id = Convert.ToInt32(Console.ReadLine());
+        int id;
+        int.TryParse(Console.ReadLine()!, out id);
         Task? returnTask = s_dal!.Task.Read(x => x.Id == id);
         if (returnTask is null)
             throw new DalDoesNotExistException("Task with such id does not exist");
@@ -302,7 +303,7 @@ internal class Program
                     break;
                 case 2:
                     Console.WriteLine("Enter Dependency id:");
-                    s_dal!.Dependency.Read(Convert.ToInt32(Console.ReadLine()));
+                    Console.WriteLine(s_dal!.Dependency.Read(Convert.ToInt32(Console.ReadLine())));
                     break;
                 case 3:
                     foreach (var dependency in s_dal!.Dependency.ReadAll())
