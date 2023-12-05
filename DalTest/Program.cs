@@ -8,7 +8,8 @@ using System.Runtime.InteropServices;
 internal class Program
 {
     //static readonly IDal? s_dal = new DalList(); //stage 2
-    static readonly IDal? s_dal = new DalXml(); //stage 3
+    //static readonly IDal? s_dal = new DalXml(); //stage 3
+    static readonly IDal s_dal = Factory.Get; //stage 4
 
     /// <summary>
     /// function to create an engineer.
