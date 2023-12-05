@@ -5,7 +5,11 @@ namespace Dal;
 
 sealed  internal class DalXml : IDal
 {
-    public static IDal Instance { get; } = new DalXml();
+    /// <summary>
+    /// creates a lazy singleton to avoid wasting system resources when the object is not used.
+    /// the true parameter causes the initialization to be Thread Safe.
+    /// </summary>
+    public static IDal Instance { get; } = new Lazy<DalXml>(true).Value;
     private DalXml() { }
 
     public IEngineer Engineer => new EngineerImplementation();

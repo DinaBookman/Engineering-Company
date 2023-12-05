@@ -9,7 +9,11 @@ namespace Dal
 {
     sealed internal class DalList : IDal
     {
-        public static IDal Instance { get; } = new DalList();
+        /// <summary>
+        /// creates a lazy singleton to avoid wasting system resources when the object is not used.
+        /// the true parameter causes the initialization to be Thread Safe.
+        /// </summary>
+        public static IDal Instance { get; } = new Lazy<DalList>(true).Value;
         private DalList() { }
 
         public IEngineer Engineer => new EngineerImplementation();
