@@ -13,5 +13,5 @@ public class Milestone
     public DateTime? CompletedAtDate { get; set; }
     public double CompletionPercentage { get; set; }
     public string? Remarks { get; set; }
-    public List<TaskInList> Dependencies { get; set; }
+    public List<TaskInList>? Dependencies { get; set; }
 }
