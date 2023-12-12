@@ -11,6 +11,7 @@
 	  <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
 	  <RootNamespace />
   </PropertyGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\DalFacade\DalFacade.csproj" />
     <ProjectReference Include="..\DalList\DalList.csproj" />
@@ -18,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-	 <Folder Include="BO\" />
-    <Folder Include="BlApi\" />
+	<Folder Include="BO\" />
     <Folder Include="BlImplementation\" />
+    <Folder Include="BlApi\" />
   </ItemGroup>
 
 </Project>
