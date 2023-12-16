@@ -7,7 +7,6 @@ public interface IEngineer
     public IEnumerable<BO.EngineerInTask> ReadAll();
     public void Update(BO.Engineer item);
     public void Delete(int id);
-    public BO.TaskInEngineer GetTaskForEngineer(int EngineerId);
 
 
 }
