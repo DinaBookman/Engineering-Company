@@ -8,8 +8,8 @@ public class Task
     public Status Status { get; set; }
     public TaskInList? DependenciesList { get; set; }
     public MilestoneInTask? Milestone { get; set; }
-    public DateTime ScheduledStartDate { get; set; }
-    public DateTime StartDate { get; set; }
+    public DateTime? ScheduledStartDate { get; set; }
+    public DateTime? StartDate { get; set; }
     public DateTime? ForecastAtDate { get; set; }
     public DateTime? DeadlineDate { get; set; }
     public DateTime? CompletedAtDate { get; set; }
