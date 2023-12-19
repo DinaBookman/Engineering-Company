@@ -8,9 +8,9 @@
 public record Dependency
 (
    int Id,
-   int? DependentTask,
-   int? DependsOnTask
+   int DependentTask,
+   int DependsOnTask
 )
 {
-    public Dependency() : this(0, null, null) {} //empty ctor for stage 3
+    public Dependency() : this(0,0,0) {} //empty ctor for stage 3
 };

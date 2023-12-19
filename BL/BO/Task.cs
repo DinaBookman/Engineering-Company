@@ -6,7 +6,7 @@ public class Task
     public string? Alias { get; set; }
     public DateTime CreatedAtDate { get; init; }
     public Status Status { get; set; }
-    public TaskInList? DependenciesList { get; set; }
+    public IEnumerable<TaskInList>? DependenciesList { get; set; }
     public MilestoneInTask? Milestone { get; set; }
     public DateTime? ScheduledStartDate { get; set; }
     public DateTime? StartDate { get; set; }

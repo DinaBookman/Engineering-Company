@@ -28,17 +28,13 @@ internal class EngineerImplementation : IEngineer
     {
         try
         {
-            DO.Engineer? doEngineer = _dal.Engineer.Read(id);
-            if (doEngineer == null)
-                throw new BO.BlDoesNotExistException($"Engineer with ID={id} does Not exist");
-            else
-            {
-                _dal.Engineer.Delete(id);
-            }
+            //תבדוק שהמהנדס לא בביצוע של משימה
+            _dal.Engineer.Delete(id);
+            
         }
         catch (DO.DalAlreadyExistsException ex)
         {
-            throw new BO.BlAlreadyExistsException($"Engineer with ID={boEngineer.Id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"Engineer with ID={id} already exists", ex);
         }
     }
 
