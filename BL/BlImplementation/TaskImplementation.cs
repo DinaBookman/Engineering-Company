@@ -1,4 +1,5 @@
 ﻿using BlApi;
+using DalApi;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -128,34 +129,26 @@ internal class TaskImplementation : ITask
             Remarks = doTask.Remarks,
         };
     }
-}
-
-public IEnumerable<BO.Task?> ReadAll()
-{
-   // IEnumerable<BO.Task?> taskList = _dal.Task.ReadAll();
-    return (from DO.Task doTask in _dal.Task.ReadAll()
-            select new BO.TaskInList
-            {
-                Id = doTask.Id,
-                Description = doTask.Description,
-                Alias = doTask.Alias,
-            });
-}
-
-public void Update(BO.Task boTask)
-{
-    if (boTask.Id <= 0) throw new ArgumentNullException(nameof(boTask));
-    if (boTask.Description == "") throw new ArgumentNullException(nameof(boTask));
-    try
+    public IEnumerable<BO.Task?> ReadAll()
     {
-        int id = Create(boTask);
-        DO.Task? toUpdate = _dal.Task.Read(id);
-        if (toUpdate != null)
-        {
-            _dal.Task.Update(toUpdate!);
-        }
-        else throw new ArgumentNullException(nameof(boTask));
+        return (from DO.Task doTask in _dal.Task.ReadAll()
+                select Read(doTask.Id));
     }
-    catch (Exception ex) { }
-}
+
+    public void Update(BO.Task boTask)
+    {
+        if (boTask.Id <= 0) throw new ArgumentNullException(nameof(boTask));
+        if (boTask.Description == "") throw new ArgumentNullException(nameof(boTask));
+        try
+        {
+            int id = Create(boTask);
+            DO.Task? toUpdate = _dal.Task.Read(id);
+            if (toUpdate != null)
+            {
+                _dal.Task.Update(toUpdate!);
+            }
+            else throw new ArgumentNullException(nameof(boTask));
+        }
+        catch (Exception ex) { }
+    }
 }
