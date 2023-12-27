@@ -51,7 +51,7 @@ internal class TaskImplementation : ITask
     /// returns all tasks in tasks list.
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Task> ReadAll(Func<Task, bool>? filter = null)
+    public IEnumerable<Task>? ReadAll(Func<Task, bool>? filter = null)
     {
         return filter == null ? Tasks.Select(item => item) : Tasks.Where(filter);
     }

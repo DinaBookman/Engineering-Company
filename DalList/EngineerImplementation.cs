@@ -54,7 +54,7 @@ internal class EngineerImplementation : IEngineer
     /// returns all engineer from list.
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null)
+    public IEnumerable<Engineer>? ReadAll(Func<Engineer, bool>? filter = null)
     {
         return filter == null ? Engineers.Select(item => item) : Engineers.Where(filter);
     }
