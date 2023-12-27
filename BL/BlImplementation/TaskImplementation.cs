@@ -32,8 +32,10 @@ internal class TaskImplementation : ITask
     public void Delete(int id)
     {
         DO.Dependency? previousTask = _dal.Dependency.ReadAll(dependency => dependency.DependsOnTask == id).FirstOrDefault();
-        if(previousTask is not null)
+        if (previousTask is not null)
+        {
             //throw new BO.BlAlreadyExistsException($"Task with ID={id} already exists", ex);
+        }
         try
         {
             _dal.Task.Delete(id);
@@ -74,7 +76,7 @@ internal class TaskImplementation : ITask
     }
 
     /// <summary>
-    /// auxiliary function, findes the engineer that is incharge of this Task.
+    /// auxiliary function, finds the engineer that is in charge of this Task.
     /// </summary>
     /// <param name="doTask"></param>
     /// <param name="id"></param>
@@ -95,7 +97,7 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="doTask"></param>
     /// <returns></returns>
-    private BO.Status Status(DO.Task doTask)
+    public static BO.Status Status(DO.Task doTask)
     {
         if (doTask.StartDate is null)
             return BO.Status.Unscheduled;
@@ -107,9 +109,7 @@ internal class TaskImplementation : ITask
     }
     public BO.Task? Read(int id)
     {
-        DO.Task? doTask = _dal.Task.Read(id);
-        if (doTask is null)
-            throw new BO.BlDoesNotExistException($"Task with ID={id} does Not exist");
+        DO.Task? doTask = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with ID={id} does Not exist");
 
         return new BO.Task()
         {
@@ -118,7 +118,7 @@ internal class TaskImplementation : ITask
             Alias = doTask.Alias,
             Status = Status(doTask),
             DependenciesList = DependenciesList(id),
-            CreatedAtDate = (DateTime.Now),
+            CreatedAtDate = doTask.CreatedAtDate,
             StartDate = doTask.StartDate,
             ScheduledStartDate = doTask.ScheduledDate,
             DeadlineDate = doTask.DeadlineDate,
@@ -135,10 +135,10 @@ internal class TaskImplementation : ITask
     {
         return (from DO.Task doTask in _dal.Task.ReadAll()
                 let task = Read(doTask.Id)
-                where filter != null ? filter(task): true
+                where filter != null ? filter(task) : true
                 select task);
     }
-    
+
     public void Update(BO.Task boTask)
     {
         if (boTask.Id <= 0) throw new ArgumentNullException(nameof(boTask));
