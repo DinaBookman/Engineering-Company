@@ -129,12 +129,14 @@ internal class TaskImplementation : ITask
             Remarks = doTask.Remarks,
         };
     }
-    public IEnumerable<BO.Task?> ReadAll()
+    public IEnumerable<BO.Task?> ReadAll(Func<BO.Task, bool>? filter = null)
     {
         return (from DO.Task doTask in _dal.Task.ReadAll()
-                select Read(doTask.Id));
+                let task = Read(doTask.Id)
+                where filter != null ? filter(task): 1==1
+                select task);
     }
-
+    
     public void Update(BO.Task boTask)
     {
         if (boTask.Id <= 0) throw new ArgumentNullException(nameof(boTask));
