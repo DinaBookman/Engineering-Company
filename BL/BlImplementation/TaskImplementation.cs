@@ -1,6 +1,6 @@
 ﻿using BlApi;
-using DalApi;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Xml.Linq;
 
 namespace BlImplementation;
@@ -31,7 +31,9 @@ internal class TaskImplementation : ITask
 
     public void Delete(int id)
     {
-        // בדיקה שהמשימה לא קודמת למשימות אחרות
+        DO.Dependency? previousTask = _dal.Dependency.ReadAll(dependency => dependency.DependsOnTask == id).FirstOrDefault();
+        if(previousTask is not null)
+            //throw new BO.BlAlreadyExistsException($"Task with ID={id} already exists", ex);
         try
         {
             _dal.Task.Delete(id);
@@ -133,7 +135,7 @@ internal class TaskImplementation : ITask
     {
         return (from DO.Task doTask in _dal.Task.ReadAll()
                 let task = Read(doTask.Id)
-                where filter != null ? filter(task): 1==1
+                where filter != null ? filter(task): true
                 select task);
     }
     
@@ -145,7 +147,7 @@ internal class TaskImplementation : ITask
         {
             int id = Create(boTask);
             DO.Task? toUpdate = _dal.Task.Read(id);
-            if (toUpdate != null)
+            if (toUpdate is not null)
             {
                 _dal.Task.Update(toUpdate!);
             }
