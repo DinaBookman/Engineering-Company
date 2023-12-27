@@ -53,7 +53,7 @@ internal class Program
         DateTime endDate = createdDate.Add(TimeSpan.FromDays(30));
         DateTime Deadline = createdDate.Add(TimeSpan.FromDays(15));
         DateTime estDateCompletion = endDate.Add(TimeSpan.FromDays(-3));
-        DO.Task newTask = new(id, description, alias, createdDate, startDate, endDate, Deadline, estDateCompletion, engineerId, (EngineerExperience)level, false, comment);
+        DO.Task newTask = new(id, description, alias, createdDate, startDate, endDate, Deadline, estDateCompletion, null, engineerId, (EngineerExperience)level, false, null, comment);
         return newTask;
     }
 
@@ -86,9 +86,9 @@ internal class Program
             throw new DalDoesNotExistException("Task with such id does not exist");
         Console.WriteLine(returnTask);
         Console.WriteLine("Enter task's details to update, if you don't want to change the detail press enter");
-        string? description, alias, comment, engineerIdString, timeString, level;
+        string? description, alias, comment, engineerIdString, timeString, level, deliverable;
         int? engineerId;
-        DateTime? startTime, estimatedEndTime, deadLine;
+        DateTime? startTime, estimatedEndTime, deadLine, completeDate;
         EngineerExperience difficultyLevel;
         Console.WriteLine("Enter task's description:");
         description = Console.ReadLine();
@@ -126,13 +126,23 @@ internal class Program
             deadLine = returnTask.DeadlineDate;
         else
             deadLine = DateTime.Parse(timeString);
+        Console.WriteLine("Enter the task's completion date: (if the task is completed)");
+        timeString = Console.ReadLine();
+        if (string.IsNullOrEmpty(timeString))
+            completeDate = returnTask.CompleteDate;
+        else
+            completeDate = DateTime.Parse(timeString);
         Console.WriteLine("Please enter complexity level (0 - 4):");
         level = Console.ReadLine();
         if (string.IsNullOrEmpty(level))
             difficultyLevel = returnTask.CopmlexityLevel;
         else
             difficultyLevel = Enum.Parse<EngineerExperience>(level);
-        Task newTask = new(id, description, alias, returnTask.CreatedAtDate, startTime, estimatedEndTime, deadLine, null, engineerId, difficultyLevel, returnTask.IsMilestone, comment);
+        Console.WriteLine("Enter task's deliverable (if there are any) :");
+        deliverable = Console.ReadLine();
+        if (string.IsNullOrEmpty(deliverable))
+            deliverable = returnTask.Deliverables;
+        Task newTask = new(id, description, alias, returnTask.CreatedAtDate, startTime, estimatedEndTime, deadLine, null, completeDate, engineerId, difficultyLevel, returnTask.IsMilestone, comment, deliverable);
         s_dal!.Task.Update(newTask);
     }
 
@@ -183,7 +193,7 @@ internal class Program
     {
         string? sDependentTask, sDependsOnTask;
         int id;
-        int? dependentTask, dependsOnTask;
+        int dependentTask, dependsOnTask;
         Console.WriteLine("Enter the dependency's id:");
         id = Convert.ToInt32(Console.ReadLine());
         Dependency? returnDependency = s_dal!.Dependency.Read(x => x.Id == id);

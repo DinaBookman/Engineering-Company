@@ -72,15 +72,15 @@ public static class Initialization
         foreach (var description in TaskDescriptions)
         {
             string alias = aliases[s_rand.Next(5)]; //random an Alias from the arr.
-            TimeSpan span = new(s_rand.Next(300));
-            DateTime createdAtDate = DateTime.Today - span; //Date of creation - random date within the recent year.
+            TimeSpan span = new(s_rand.Next(365));
+            DateTime createdAtDate = DateTime.Now - span; //Date of creation - random date within the recent year.
             DateTime deadline = createdAtDate.AddDays(s_rand.Next(500));//last date-random date within the  next 500 days from creation.
-            int engineerId = engineers.ElementAt(s_rand.Next(5)).Id;//
+            int engineerId = engineers.ElementAt(s_rand.Next(5)).Id;//chooses random emgineer for task.
             int level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);//chooses random task level.
 
             //Creates new Task.
-            Task newTask = new(0, description, alias, createdAtDate, null, null, deadline,
-                           null, engineerId, (EngineerExperience)level, false, null);
+            Task newTask = new(0, description, alias, createdAtDate, null, null, null, deadline,
+                           null, engineerId, (EngineerExperience)level, false,null, null);
             s_dal!.Task!.Create(newTask);
         }
     }
