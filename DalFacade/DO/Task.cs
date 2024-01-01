@@ -18,8 +18,8 @@
 public record Task
 (
     int Id,
-    string Description,
-    string Alias,
+    string? Description,
+    string? Alias,
     DateTime CreatedAtDate,
     DateTime? StartDate,
     DateTime? ScheduledDate,

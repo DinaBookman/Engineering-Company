@@ -31,7 +31,7 @@ internal class TaskImplementation : ITask
 
     public void Delete(int id)
     {
-        DO.Dependency? previousTask = _dal.Dependency.ReadAll(dependency => dependency.DependsOnTask == id).FirstOrDefault();
+        DO.Dependency? previousTask = _dal.Dependency.ReadAll(dependency => dependency.DependsOnTask == id)!.FirstOrDefault();
         if (previousTask is not null)
         {
             //throw new BO.BlAlreadyExistsException($"Task with ID={id} already exists", ex);
@@ -51,12 +51,12 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    private IEnumerable<BO.TaskInList>? DependenciesList(int id)
+    private IEnumerable<BO.TaskInList>? GetDependenciesList(int id)
     {
-        IEnumerable<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == id);
+        IEnumerable<DO.Dependency>? dependencies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == id)!;
         IEnumerable<int> IdList = dependencies.Select(dependent => dependent!.DependsOnTask);
-        IEnumerable<DO.Task?> tasks = _dal.Task.ReadAll(task => IdList.Contains(task.Id));
-        IEnumerable<BO.TaskInList>? dependenciesList = tasks.Select(task => new BO.TaskInList() { Id = task!.Id, Description = task.Description, Alias = task.Alias, Status = BO.Status.Unscheduled });
+        IEnumerable<DO.Task?> tasks = _dal.Task.ReadAll(task => IdList.Contains(task.Id))!;
+        IEnumerable<BO.TaskInList>? dependenciesList = tasks.Select(task => new BO.TaskInList() { Id = task!.Id, Description = task.Description, Alias = task.Alias, Status = Status(task) });
         return dependenciesList;
     }
 
@@ -65,7 +65,7 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    private BO.MilestoneInTask Milestone(int id)
+    private BO.MilestoneInTask GetMilestone(int id)
     {
         IEnumerable<DO.Task> milestones = _dal.Task.ReadAll(task => task.IsMilestone == true)!;
         IEnumerable<int> milestoneIds = milestones.Select(m => m!.Id);
@@ -81,7 +81,7 @@ internal class TaskImplementation : ITask
     /// <param name="doTask"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    private BO.EngineerInTask? EngineerInTask(DO.Task doTask, int id)
+    private BO.EngineerInTask? GetEngineerInTask(DO.Task doTask, int id)
     {
         if (doTask.EngineerId != null)
         {
@@ -97,7 +97,7 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="doTask"></param>
     /// <returns></returns>
-    public static BO.Status Status(DO.Task doTask)
+    public static BO.Status GetStatus(DO.Task doTask)
     {
         if (doTask.StartDate is null)
             return BO.Status.Unscheduled;
@@ -116,16 +116,16 @@ internal class TaskImplementation : ITask
             Id = doTask.Id,
             Description = doTask.Description,
             Alias = doTask.Alias,
-            Status = Status(doTask),
-            DependenciesList = DependenciesList(id),
+            Status = GetStatus(doTask),
+            DependenciesList = GetDependenciesList(id),
             CreatedAtDate = doTask.CreatedAtDate,
             StartDate = doTask.StartDate,
             ScheduledStartDate = doTask.ScheduledDate,
             DeadlineDate = doTask.DeadlineDate,
             ForecastAtDate = doTask.ForecastAtDate,
             CompletedAtDate = doTask.CompleteDate,
-            Milestone = Milestone(id),
-            Engineer = EngineerInTask(doTask, id),
+            Milestone = GetMilestone(id),
+            Engineer = GetEngineerInTask(doTask, id),
             ComplexityLevel = (BO.EngineerExperience)doTask.CopmlexityLevel,
             Deliverables = doTask.Deliverables,
             Remarks = doTask.Remarks,
