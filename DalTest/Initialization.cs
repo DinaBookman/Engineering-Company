@@ -18,7 +18,7 @@ public static class Initialization
 
     private static readonly Random s_rand = new();
 
-    private static void createEngineers()
+    private static void CreateEngineers()
     {
         string[] engineerNames =
         {
@@ -42,7 +42,7 @@ public static class Initialization
         }
     }
 
-    private static void createTasks() 
+    private static void CreateTasks() 
     {
         string[] TaskDescriptions =
         {
@@ -85,7 +85,7 @@ public static class Initialization
         }
     }
    
-    private static void createDependencies()
+    private static void CreateDependencies()
     {
         //Create dependencies between Tasks. Every Task with Id 1016 - 1020 dependes on Tasks with Id 1000 - 1010.
         for(int i = 1016; i < 1020; i++)
@@ -101,8 +101,8 @@ public static class Initialization
     public static void Do(IDal? dal)
     {
         s_dal = dal ?? throw new NullReferenceException("DAL can not be null!");
-        createEngineers();
-        createTasks();
-        createDependencies();
+        CreateEngineers();
+        CreateTasks();
+        CreateDependencies();
     }
 }

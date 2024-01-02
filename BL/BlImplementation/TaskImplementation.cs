@@ -34,7 +34,7 @@ internal class TaskImplementation : ITask
         DO.Dependency? previousTask = _dal.Dependency.ReadAll(dependency => dependency.DependsOnTask == id)!.FirstOrDefault();
         if (previousTask is not null)
         {
-            //throw new BO.BlAlreadyExistsException($"Task with ID={id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"Task with ID={id} already exists");
         }
         try
         {
@@ -56,7 +56,7 @@ internal class TaskImplementation : ITask
         IEnumerable<DO.Dependency>? dependencies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == id)!;
         IEnumerable<int> IdList = dependencies.Select(dependent => dependent!.DependsOnTask);
         IEnumerable<DO.Task?> tasks = _dal.Task.ReadAll(task => IdList.Contains(task.Id))!;
-        IEnumerable<BO.TaskInList>? dependenciesList = tasks.Select(task => new BO.TaskInList() { Id = task!.Id, Description = task.Description, Alias = task.Alias, Status = Status(task) });
+        IEnumerable<BO.TaskInList>? dependenciesList = tasks.Select(task => new BO.TaskInList() { Id = task!.Id, Description = task.Description, Alias = task.Alias, Status =GetStatus(task) });
         return dependenciesList;
     }
 
@@ -133,7 +133,7 @@ internal class TaskImplementation : ITask
     }
     public IEnumerable<BO.Task?> ReadAll(Func<BO.Task, bool>? filter = null)
     {
-        return (from DO.Task doTask in _dal.Task.ReadAll()
+        return (from DO.Task doTask in _dal.Task.ReadAll()!
                 let task = Read(doTask.Id)
                 where filter != null ? filter(task) : true
                 select task);
@@ -153,6 +153,7 @@ internal class TaskImplementation : ITask
             }
             else throw new ArgumentNullException(nameof(boTask));
         }
-        catch (Exception ex) { }
+        catch (DO.DalDoesNotExistException ex) { throw new BO.BlDoesNotExistException($"Task with ID={boTask.Id} already exists", ex); }
     }
 }
+  

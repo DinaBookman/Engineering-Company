@@ -1,9 +1,7 @@
 ﻿namespace BlImplementation;
 using BlApi;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
-
+ 
 internal class MilestoneImplementation : IMilestone
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
@@ -41,7 +39,7 @@ internal class MilestoneImplementation : IMilestone
         IEnumerable<DO.Dependency>? dependencies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == id)!;
         IEnumerable<int> IdList = dependencies.Select(dependent => dependent!.DependsOnTask);
         IEnumerable<DO.Task?> tasks = _dal.Task.ReadAll(task => IdList.Contains(task.Id))!;
-        IEnumerable<BO.TaskInList>? dependenciesList = tasks.Select(task => new BO.TaskInList() { Id = task!.Id, Description = task.Description, Alias = task.Alias, Status = TaskImplementation.Status(task) });
+        IEnumerable<BO.TaskInList>? dependenciesList = tasks.Select(task => new BO.TaskInList() { Id = task!.Id, Description = task.Description, Alias = task.Alias, Status = TaskImplementation.GetStatus(task) });
         return dependenciesList;
     }
     /// <summary>

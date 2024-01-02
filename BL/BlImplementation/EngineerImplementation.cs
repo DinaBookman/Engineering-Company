@@ -21,7 +21,7 @@ internal class EngineerImplementation : IEngineer
                 return idEngineer;
             }
             else
-                throw BO.FormatException("Wrong input");
+                throw new BO.FormatException("Wrong input");
         }
         catch (DO.DalAlreadyExistsException ex)
         {
@@ -31,7 +31,7 @@ internal class EngineerImplementation : IEngineer
 
     private bool NotInTask(int id)
     {
-        DO.Task? taskInEngineer = _dal.Task.ReadAll(task => task.EngineerId == id).FirstOrDefault();
+        DO.Task? taskInEngineer = _dal.Task.ReadAll(task => task.EngineerId == id)!.FirstOrDefault();
         if (taskInEngineer == null)
             return true;
         return false;
@@ -44,16 +44,16 @@ internal class EngineerImplementation : IEngineer
             if (NotInTask(id))
                 _dal.Engineer.Delete(id);
         }
-        catch (DO.DalAlreadyExistsException ex)
+        catch (DO.DalDoesNotExistException ex)
         {
-            throw new BO.BlAlreadyExistsException($"Engineer with ID={id} already exists", ex);
+            throw new BO.BlDoesNotExistException($"Engineer with ID={id} already exists", ex);
         }
     }
 
 
     private BO.TaskInEngineer? TaskInEngineer(DO.Engineer doEngineer, int id)
     {
-        BO.TaskInEngineer? task = (BO.TaskInEngineer?)(from DO.Task doTask in _dal.Task.ReadAll(task => task.EngineerId == id && task.StartDate < DateTime.Now && task.CompleteDate > DateTime.Now)
+        BO.TaskInEngineer? task = (BO.TaskInEngineer?)(from DO.Task doTask in _dal.Task.ReadAll(task => task.EngineerId == id && task.StartDate < DateTime.Now && task.CompleteDate > DateTime.Now)!
                                                        select new BO.TaskInEngineer { Id = doTask.Id, Alias = doTask.Alias });
         return task;
     }
@@ -78,7 +78,7 @@ internal class EngineerImplementation : IEngineer
 
     public IEnumerable<BO.Engineer>? ReadAll(Func<BO.Engineer, bool>? filter = null)
     {
-        return (from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
+        return (from DO.Engineer doEngineer in _dal.Engineer.ReadAll()!
                 let engineer = Read(doEngineer.Id)
                 where filter != null ? filter(engineer) : true
                 select engineer);
@@ -101,10 +101,11 @@ internal class EngineerImplementation : IEngineer
 
 
         }
-        catch (DO.DalAlreadyExistsException ex)
+        catch (DO.DalDoesNotExistException ex)
         {
-            throw new BO.BlAlreadyExistsException($"Engineer with ID={boEngineer.Id} already exists", ex);
+            throw new BO.BlDoesNotExistException($"Engineer with ID={boEngineer.Id} already exists", ex);
         }
+        
     }
 
 

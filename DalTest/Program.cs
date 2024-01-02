@@ -1,10 +1,7 @@
 ﻿namespace DalTest;
 using DalApi;
 using DO;
-using Dal;
-using System.Globalization;
-using System.Transactions;
-using System.Runtime.InteropServices;
+ 
 internal class Program
 {
     //static readonly IDal? s_dal = new DalList(); //stage 2
