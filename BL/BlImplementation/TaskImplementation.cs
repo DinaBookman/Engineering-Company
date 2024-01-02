@@ -8,6 +8,14 @@ namespace BlImplementation;
 internal class TaskImplementation : ITask
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
+
+    /// <summary>
+    /// Function for creating new Task.
+    /// </summary>
+    /// <param name="boTask"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="BO.BlAlreadyExistsException"></exception>
     public int Create(BO.Task boTask)
     {
         if (boTask.Id <= 0) throw new ArgumentNullException(nameof(boTask));
@@ -29,6 +37,11 @@ internal class TaskImplementation : ITask
         }
     }
 
+    /// <summary>
+    /// A function that deletes a task.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="BO.BlAlreadyExistsException"></exception>
     public void Delete(int id)
     {
         DO.Dependency? previousTask = _dal.Dependency.ReadAll(dependency => dependency.DependsOnTask == id)!.FirstOrDefault();
@@ -107,6 +120,12 @@ internal class TaskImplementation : ITask
             return BO.Status.InJeopardy;
         return BO.Status.Scheduled;
     }
+    /// <summary>
+    /// A function for reading a task by id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="BO.BlDoesNotExistException"></exception>
     public BO.Task? Read(int id)
     {
         DO.Task? doTask = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with ID={id} does Not exist");
@@ -131,6 +150,11 @@ internal class TaskImplementation : ITask
             Remarks = doTask.Remarks,
         };
     }
+    /// <summary>
+    /// A function for reading all tasks / read by condition.
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
     public IEnumerable<BO.Task?> ReadAll(Func<BO.Task, bool>? filter = null)
     {
         return (from DO.Task doTask in _dal.Task.ReadAll()!
@@ -138,7 +162,12 @@ internal class TaskImplementation : ITask
                 where filter != null ? filter(task) : true
                 select task);
     }
-
+    /// <summary>
+    /// A function for updating a task.
+    /// </summary>
+    /// <param name="boTask"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="BO.BlDoesNotExistException"></exception>
     public void Update(BO.Task boTask)
     {
         if (boTask.Id <= 0) throw new ArgumentNullException(nameof(boTask));
