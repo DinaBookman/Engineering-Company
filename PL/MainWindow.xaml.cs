@@ -1,4 +1,5 @@
-﻿using PL.Engineer;
+﻿using DalApi;
+using PL.Engineer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,24 @@ namespace PL
             new EngineerListWindow().Show();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+        private void btnInitDB(object sender, RoutedEventArgs e)
+        { 
+            if (MessageBox.Show("Are you sure you want to initialize the data?", "initialize data",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    DalTest.Initialization.Do();
+                }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show("If you close the next window without saving, your changes will be lost.",
+                        "Configuration",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                }
+            }
         }
     }
 }

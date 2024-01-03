@@ -75,7 +75,7 @@ public static class Initialization
             TimeSpan span = new(s_rand.Next(365));
             DateTime createdAtDate = DateTime.Now - span; //Date of creation - random date within the recent year.
             DateTime deadline = createdAtDate.AddDays(s_rand.Next(500));//last date-random date within the  next 500 days from creation.
-            int engineerId = engineers.ElementAt(s_rand.Next(5)).Id;//chooses random emgineer for task.
+            int engineerId = engineers.ElementAt(s_rand.Next(5)).Id;//chooses random engineer for task.
             int level = s_rand.Next(LOW_LEVEL, HIGH_LEVEL);//chooses random task level.
 
             //Creates new Task.
@@ -87,7 +87,7 @@ public static class Initialization
    
     private static void CreateDependencies()
     {
-        //Create dependencies between Tasks. Every Task with Id 1016 - 1020 dependes on Tasks with Id 1000 - 1010.
+        //Create dependencies between Tasks. Every Task with Id 1016 - 1020 depends on Tasks with Id 1000 - 1010.
         for(int i = 1016; i < 1020; i++)
         {
             for (int j = 1000; j < 1010; j++)
