@@ -236,7 +236,7 @@ internal class Program
                     Console.WriteLine(s_dal!.Engineer.Read(Convert.ToInt32(Console.ReadLine())));
                     break;
                 case 3:
-                    foreach (var item in s_dal!.Engineer.ReadAll())
+                    foreach (var item in s_dal!.Engineer.ReadAll()!)
                         Console.WriteLine(item);
                     break;
                 case 4:
@@ -275,7 +275,7 @@ internal class Program
                     Console.WriteLine(s_dal!.Task.Read(Convert.ToInt32(Console.ReadLine())));
                     break;
                 case 3:
-                    foreach (var item in s_dal!.Task.ReadAll())
+                    foreach (var item in s_dal!.Task.ReadAll()!)
                         Console.WriteLine(item);
                     break;
                 case 4:
@@ -314,7 +314,7 @@ internal class Program
                     Console.WriteLine(s_dal!.Dependency.Read(Convert.ToInt32(Console.ReadLine())));
                     break;
                 case 3:
-                    foreach (var dependency in s_dal!.Dependency.ReadAll())
+                    foreach (var dependency in s_dal!.Dependency.ReadAll()!)
                         Console.WriteLine($"id: {dependency!.Id}  task id: {dependency.DependentTask}  pervious task id: {dependency.DependsOnTask}");
                     break;
                 case 4:
