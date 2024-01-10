@@ -15,6 +15,6 @@ public class Task
     public DateTime? CompletedAtDate { get; set; }
     public string? Deliverables { get; set; }
     public string? Remarks { get; set; }
-    public EngineerInTask? Engineer { get; set; }
+    public EngineerInList? Engineer { get; set; }
     public EngineerExperience ComplexityLevel { get; set; } 
 }

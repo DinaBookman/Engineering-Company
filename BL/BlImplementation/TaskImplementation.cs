@@ -74,7 +74,7 @@ internal class TaskImplementation : ITask
     }
 
     /// <summary>
-    /// auxiliary function, findes the milestone of the current task.
+    /// auxiliary function, finds the milestone of the current task.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -94,12 +94,12 @@ internal class TaskImplementation : ITask
     /// <param name="doTask"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    private BO.EngineerInTask? GetEngineerInTask(DO.Task doTask, int id)
+    private BO.EngineerInList? GetEngineerInTask(DO.Task doTask, int id)
     {
         if (doTask.EngineerId != null)
         {
             string engineerName = _dal.Engineer.Read(id)!.Name;
-            BO.EngineerInTask engineer = new() { Id = (int)doTask.EngineerId, Name = engineerName };
+            BO.EngineerInList engineer = new() { Id = (int)doTask.EngineerId, Name = engineerName };
             return engineer;
         }
         return null;

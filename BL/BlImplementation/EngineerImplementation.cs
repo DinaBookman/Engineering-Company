@@ -75,10 +75,10 @@ internal class EngineerImplementation : IEngineer
     /// <param name="doEngineer"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    private BO.TaskInEngineer? TaskInEngineer(DO.Engineer doEngineer, int id)
+    private BO.TaskInEngineer? TaskInEngineer(int id)
     {
-        BO.TaskInEngineer? task = (BO.TaskInEngineer?)(from DO.Task doTask in _dal.Task.ReadAll(task => task.EngineerId == id && task.StartDate < DateTime.Now && task.CompleteDate > DateTime.Now)!
-                                                       select new BO.TaskInEngineer { Id = doTask.Id, Alias = doTask.Alias });
+        BO.TaskInEngineer? task = (from DO.Task doTask in _dal.Task.ReadAll(task => task.EngineerId == id && task.StartDate < DateTime.Now && task.CompleteDate > DateTime.Now)!
+                                                       select new BO.TaskInEngineer { Id = doTask.Id, Alias = doTask.Alias }).FirstOrDefault();
         return task;
     }
     /// <summary>
@@ -100,7 +100,7 @@ internal class EngineerImplementation : IEngineer
             Email = doEngineer.Email,
             Level = (BO.EngineerExperience?)doEngineer.Level,
             Cost = doEngineer.Cost,
-            Task = TaskInEngineer(doEngineer, id)
+            Task = TaskInEngineer(id)
         };
     }
     /// <summary>

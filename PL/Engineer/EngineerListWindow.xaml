@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
-        Title="EngineerListWindow" Height="640" Width="800">
+        Title="EngineerListWindow" Height="640" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <!--Extrnal Grid-->
     <Grid>
         <Grid.RowDefinitions>
@@ -24,7 +25,7 @@
             <!--Filter categories for Engineer in list.-->
             <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"/>
         </Grid>
-        <ListView Grid.Row="1">
+        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path=EngineerList}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
