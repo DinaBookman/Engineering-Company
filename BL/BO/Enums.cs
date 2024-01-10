@@ -9,7 +9,8 @@ public enum EngineerExperience
     AdvancedBeginner,
     Competent,
     Proficient,
-    Expert
+    Expert,
+    All
 }
 /// <summary>
 /// Task or Milestone status.
