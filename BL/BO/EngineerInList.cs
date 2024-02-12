@@ -6,6 +6,6 @@ public class EngineerInList
     public override string ToString() => this.ToStringProperty();
     private string ToStringProperty()
     {
-        return $"Id: {Id}, Name: {Name ?? "null"}";
+        return $"Id: {Id}\nName: {Name ?? "null"}\n";
     }
 }

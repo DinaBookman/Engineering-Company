@@ -37,10 +37,10 @@ namespace PL.Engineer
 
         public static readonly DependencyProperty EngineerListProperty =
             DependencyProperty.Register("EngineerList", typeof(ObservableCollection<BO.EngineerInList>), typeof(EngineerListWindow), new PropertyMetadata(null));
-        public BO.EngineerExperience  Level { get; set; } = BO.EngineerExperience.All;
-        private void CbLevelSelector(object sender, SelectionChangedEventArgs e)
+        public BO.EngineerExperience Level { get; set; } = BO.EngineerExperience.None;
+        private void CbLevelSelector_selectorChanged(object sender, SelectionChangedEventArgs e)
         {
-            var temp = Level == BO.EngineerExperience.All?
+            var temp = Level == BO.EngineerExperience.None ?
             s_bl?.Engineer.ReadAll() :
             s_bl?.Engineer.ReadAll(item => item.Level == Level);
             var list = from engineer in temp
@@ -48,5 +48,25 @@ namespace PL.Engineer
             EngineerList = list == null ? new() : new(list);
         }
 
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            EngineerWindow ew = new EngineerWindow();
+            ew.ShowDialog();
+            var temp = s_bl?.Engineer.ReadAll();
+            var list = from engineer in temp
+                       select new BO.EngineerInList() { Id = engineer.Id, Name = engineer.Name };
+            EngineerList = list == null ? new() : new(list);
+        }
+
+        private void SingleEngineer_update(object sender, MouseButtonEventArgs e)
+        {
+            BO.EngineerInList? EngineerInList = (sender as ListView)?.SelectedItem as BO.EngineerInList;
+            EngineerWindow ew = new EngineerWindow(EngineerInList!.Id);
+            ew.ShowDialog();
+            var temp = s_bl?.Engineer.ReadAll();
+            var list = from engineer in temp
+                       select new BO.EngineerInList() { Id = engineer.Id, Name = engineer.Name };
+            EngineerList = list == null ? new() : new(list);
+        }
     }
 }

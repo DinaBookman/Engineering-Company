@@ -11,7 +11,7 @@ internal class EngineerImplementation : IEngineer
     /// <returns></returns>
     private static bool IsValidEmail(string email)
     {
-        string pattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])""|" + @"([-a-z0-9!#$%&'+/=?^_`{|}~]|(?<!\.)\.))(?<!\.)" + @"@[a-z0-9][\w\.-][a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+        string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         var regex = new Regex(pattern, RegexOptions.IgnoreCase);
         return regex.IsMatch(email);
     }
@@ -124,22 +124,20 @@ internal class EngineerImplementation : IEngineer
     public void Update(BO.Engineer boEngineer)
     {
         DO.Engineer doEngineer = new DO.Engineer(boEngineer.Id, boEngineer.Name!, boEngineer.Email!, (DO.EngineerExperience?)boEngineer.Level, boEngineer.Cost);
-        if (boEngineer.Id > 0 && boEngineer.Name != "" && IsValidEmail(boEngineer.Email!) && boEngineer.Cost > 0) throw new ArgumentNullException(nameof(boEngineer));
+        if (boEngineer.Id > 0 && boEngineer.Name != "" && IsValidEmail(boEngineer.Email!) && boEngineer.Cost > 0) 
         try
         {
-            int id = Create(boEngineer);
-            DO.Engineer? toUpdate = _dal.Engineer.Read(id);
+            DO.Engineer? toUpdate = _dal.Engineer.Read(boEngineer.Id);
             if (toUpdate is not null)
             {
-                _dal.Engineer.Update(toUpdate!);
+                _dal.Engineer.Update(doEngineer);
             }
             else throw new ArgumentNullException(nameof(boEngineer));
-
-
         }
         catch (DO.DalDoesNotExistException ex)
         {
             throw new BO.BlDoesNotExistException($"Engineer with ID={boEngineer.Id} already exists", ex);
         }  
+        else throw new ArgumentNullException(nameof(boEngineer));
     }
 }

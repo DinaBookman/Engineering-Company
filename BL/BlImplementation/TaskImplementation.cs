@@ -170,15 +170,16 @@ internal class TaskImplementation : ITask
     /// <exception cref="BO.BlDoesNotExistException"></exception>
     public void Update(BO.Task boTask)
     {
-        if (boTask.Id <= 0) throw new ArgumentNullException(nameof(boTask));
-        if (boTask.Description == "") throw new ArgumentNullException(nameof(boTask));
+        if (boTask.Id <= 0 || boTask.Description == "") throw new ArgumentNullException(nameof(boTask));
+        DO.Task doTask = new DO.Task(boTask.Id, boTask.Description!, boTask.Alias!, boTask.CreatedAtDate, null, null,
+                               null, null, null, null, (DO.EngineerExperience)boTask.ComplexityLevel, false, boTask.Remarks, boTask.Deliverables);
         try
         {
             int id = Create(boTask);
             DO.Task? toUpdate = _dal.Task.Read(id);
             if (toUpdate is not null)
             {
-                _dal.Task.Update(toUpdate!);
+                _dal.Task.Update(doTask);
             }
             else throw new ArgumentNullException(nameof(boTask));
         }

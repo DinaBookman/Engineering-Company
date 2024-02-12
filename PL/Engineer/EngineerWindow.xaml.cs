@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,6 +22,13 @@ namespace PL.Engineer
     public partial class EngineerWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        public EngineerWindow(int id = 0)
+        {
+            InitializeComponent();
+            CurrentEngineer = (id == 0) ?
+                new BO.Engineer() { Id = 0000, Name = null, Email = null, Level = BO.EngineerExperience.None, Cost = 0, Task = null } :
+                s_bl.Engineer.Read(id)!;
+        }
 
         public BO.Engineer CurrentEngineer
         {
@@ -29,29 +37,37 @@ namespace PL.Engineer
         }
 
         public static readonly DependencyProperty CurrentEngineerProperty =
-            DependencyProperty.Register("CurrentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(0));
+            DependencyProperty.Register("CurrentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
 
-        public EngineerWindow(int id = 0)
+        private void BtnAddUpdate_Click(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
-            if(id == 0)
+            if ((sender as Button)?.Content.ToString() == "Add")
             {
-                CurrentEngineer = new BO.Engineer() { Id=0000, Name=null, Email=null, Level=null, Cost=0, Task = null};
-            }
-            else{
                 try
                 {
-                    BO.Engineer? Engineer = s_bl.Engineer.Read(id);
-                    if (Engineer == null) throw new Exception();
-                    CurrentEngineer = Engineer!;
+                    s_bl.Engineer.Create(CurrentEngineer);
+                    Close();
+                    MessageBox.Show("The Engineer was successfully added", "success");
+
                 }
-                catch(Exception e) { }
+                catch { 
+                    MessageBox.Show("Oops! was unable to add Engineer.", "Error to Add Engineer");
+                } 
             }
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            else
+            {
+                try
+                {
+                    s_bl.Engineer.Update(CurrentEngineer);
+                    Close();
+                    MessageBox.Show("The Engineer was successfully updated", "success");
+                }
+                catch
+                {
+                    MessageBox.Show("Oops! was unable to update Engineer.", "Error to update Engineer");
+                }
+                
+            }
         }
     }
 }

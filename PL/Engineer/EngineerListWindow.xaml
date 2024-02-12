@@ -23,15 +23,15 @@
             <!--Contains the Name of category-->
             <Label Content="Label" Grid.Column="0" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <!--Filter categories for Engineer in list.-->
-            <ComboBox  SelectedValue="{Binding Levels, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource  EngineerExperienceKey}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"/>
+            <ComboBox  SelectedValue="{Binding Level, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource  EngineerExperienceKey}}" SelectionChanged="CbLevelSelector_selectorChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"/>
         </Grid>
-        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path=EngineerList}">
+        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path=EngineerList}" MouseDoubleClick="SingleEngineer_update">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="BtnAdd_Click"/>
     </Grid>
 </Window>
