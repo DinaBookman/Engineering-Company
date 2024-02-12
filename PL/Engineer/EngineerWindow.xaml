@@ -5,8 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
-        Title="EngineerWindow" Height="450" Width="800">
-    <Grid>
+        Title="EngineerWindow" Height="450" Width="800"
+        DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
+    <Grid RenderTransformOrigin="0.426,0.598">
         
+        <Label Content="Id:" HorizontalAlignment="Left" Margin="154,48,0,0" VerticalAlignment="Top"/>
+        <TextBox
+                  Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+                  HorizontalAlignment="Left" Height="NaN" Margin="230,48,0,0" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="154,78,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="230,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"
+                                   Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" />
+        
+        <Label Content="Email:" HorizontalAlignment="Left" Margin="154,108,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="230,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"
+                                   Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" />
+
+        <Label Content="Level:" HorizontalAlignment="Left" Margin="154,138,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="230,142,0,0" VerticalAlignment="Top" Width="120"
+                  ItemsSource="{Binding Source={StaticResource EngineerExperienceKey}}" 
+                  SelectedValue="{Binding Level, Mode=TwoWay, NotifyOnValidationError=true, 
+                  ValidatesOnExceptions=true}"/>
+        
+        <Label Content="Cost:" HorizontalAlignment="Left" Margin="154,168,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="230,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"
+                                  Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" />
+
+        <Label Content="Engineer's Task:" HorizontalAlignment="Left" Margin="154,198,0,0" VerticalAlignment="Top"/>
+        <Label Content="Task's Id:" HorizontalAlignment="Left" Margin="154,228,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="230,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged" 
+                                  Text="{Binding Task.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" />
+
+        <Label Content="Task's Alias:" HorizontalAlignment="Left" Margin="154,258,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="230,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"
+                                  Text="{Binding Task.Alias, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" />
+
+        <Button Content="" HorizontalAlignment="Left" Margin="264,317,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -38,7 +38,7 @@ namespace PL.Engineer
         public static readonly DependencyProperty EngineerListProperty =
             DependencyProperty.Register("EngineerList", typeof(ObservableCollection<BO.EngineerInList>), typeof(EngineerListWindow), new PropertyMetadata(null));
         public BO.EngineerExperience  Level { get; set; } = BO.EngineerExperience.All;
-        private void cbLevelSelector(object sender, SelectionChangedEventArgs e)
+        private void CbLevelSelector(object sender, SelectionChangedEventArgs e)
         {
             var temp = Level == BO.EngineerExperience.All?
             s_bl?.Engineer.ReadAll() :
