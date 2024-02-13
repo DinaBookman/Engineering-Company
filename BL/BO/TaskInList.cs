@@ -8,6 +8,6 @@ public class TaskInList
 
     public override string ToString()
     {
-        return $"Id: {Id}, Description: {Description ?? "N/A"}, Alias: {Alias ?? "N/A"}, Status: {Status}";
+        return $"Id: {Id}\nDescription: {Description ?? "N/A"}\nAlias: {Alias ?? "N/A"}\nStatus: {Status}\n";
     }
 }
