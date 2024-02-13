@@ -20,5 +20,6 @@ public enum Status
     Unscheduled,
     Scheduled,
     OnTrack,
-    InJeopardy
+    InJeopardy,
+    None
 }
