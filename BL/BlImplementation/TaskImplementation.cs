@@ -18,8 +18,7 @@ internal class TaskImplementation : ITask
     /// <exception cref="BO.BlAlreadyExistsException"></exception>
     public int Create(BO.Task boTask)
     {
-        if (boTask.Id <= 0) throw new ArgumentNullException(nameof(boTask));
-        if (boTask.Description == "") throw new ArgumentNullException(nameof(boTask));
+        if (boTask.Id <= 0 || boTask.Description == "") throw new ArgumentNullException(nameof(boTask));
 
         var itemList = boTask.DependenciesList!.Select(task => new DO.Dependency() { Id = 0000, DependentTask = boTask.Id, DependsOnTask = task.Id });
         _ = itemList.Select(dependency => _dal.Dependency.Create(dependency));

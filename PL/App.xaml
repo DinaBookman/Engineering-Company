@@ -6,5 +6,6 @@
     <Application.Resources>
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:EngineerExperience x:Key="EngineerExperienceKey"/>
+        <local:Status x:Key="StatusKey"/>
     </Application.Resources>
 </Application>

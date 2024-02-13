@@ -13,60 +13,60 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL.Engineer
+namespace PL.Task
 {
     /// <summary>
-    /// Interaction logic for EngineerListWindow.xaml
+    /// Interaction logic for TaskListWindow.xaml
     /// </summary>
-    public partial class EngineerListWindow : Window
+    public partial class TaskListWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        public EngineerListWindow()
+        public TaskListWindow()
         {
             InitializeComponent();
-            var temp = s_bl?.Engineer.ReadAll();
-            var list = from engineer in temp
-                       select new BO.EngineerInList() { Id = engineer.Id, Name = engineer.Name };
-            EngineerList = list == null ? new() : new(list);
+            var temp = s_bl?.Task.ReadAll();
+            var list = from task in temp
+                       select new BO.TaskInList() { Id = task.Id, Alias = task.Alias, Description = task.Description, Status = task.Status };
+            TaskList = list == null ? new() : new(list);
         }
-        public ObservableCollection<BO.EngineerInList> EngineerList
+        public ObservableCollection<BO.TaskInList> TaskList
         {
-            get { return (ObservableCollection<BO.EngineerInList>)GetValue(EngineerListProperty); }
-            set { SetValue(EngineerListProperty, value); }
+            get { return (ObservableCollection<BO.TaskInList>)GetValue(TaskListProperty); }
+            set { SetValue(TaskListProperty, value); }
         }
 
-        public static readonly DependencyProperty EngineerListProperty =
-            DependencyProperty.Register("EngineerList", typeof(ObservableCollection<BO.EngineerInList>), typeof(EngineerListWindow), new PropertyMetadata(null));
-        public BO.EngineerExperience Level { get; set; } = BO.EngineerExperience.None;
-        private void CbLevelSelector_selectorChanged(object sender, SelectionChangedEventArgs e)
+        public static readonly DependencyProperty TaskListProperty =
+            DependencyProperty.Register("TaskList", typeof(ObservableCollection<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
+        public BO.Status Status { get; set; } = BO.Status.None;
+        private void CbStatusSelector_selectorChanged(object sender, SelectionChangedEventArgs e)
         {
-            var temp = Level == BO.EngineerExperience.None ?
-            s_bl?.Engineer.ReadAll() :
-            s_bl?.Engineer.ReadAll(item => item.Level == Level);
-            var list = from engineer in temp
-                       select new BO.EngineerInList() { Id = engineer.Id, Name = engineer.Name };
-            EngineerList = list == null ? new() : new(list);
+            var temp = Status == BO.Status.None ?
+            s_bl?.Task.ReadAll() :
+            s_bl?.Task.ReadAll(item => item.Status == Status);
+            var list = from task in temp
+                       select new BO.TaskInList() { Id = task.Id, Alias = task.Alias, Description = task.Description, Status = task.Status };
+            TaskList = list == null ? new() : new(list);
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            EngineerWindow ew = new EngineerWindow();
+            TaskWindow ew = new TaskWindow();
             ew.ShowDialog();
-            var temp = s_bl?.Engineer.ReadAll();
-            var list = from engineer in temp
-                       select new BO.EngineerInList() { Id = engineer.Id, Name = engineer.Name };
-            EngineerList = list == null ? new() : new(list);
+            var temp = s_bl?.Task.ReadAll();
+            var list = from task in temp
+                       select new BO.TaskInList() { Id = task.Id, Alias = task.Alias, Description = task.Description, Status = task.Status };
+            TaskList = list == null ? new() : new(list);
         }
 
-        private void SingleEngineer_update(object sender, MouseButtonEventArgs e)
+        private void SingleTask_update(object sender, MouseButtonEventArgs e)
         {
             BO.EngineerInList? EngineerInList = (sender as ListView)?.SelectedItem as BO.EngineerInList;
-            EngineerWindow ew = new EngineerWindow(EngineerInList!.Id);
+            TaskWindow ew = new TaskWindow(EngineerInList!.Id);
             ew.ShowDialog();
-            var temp = s_bl?.Engineer.ReadAll();
-            var list = from engineer in temp
-                       select new BO.EngineerInList() { Id = engineer.Id, Name = engineer.Name };
-            EngineerList = list == null ? new() : new(list);
+            var temp = s_bl?.Task.ReadAll();
+            var list = from task in temp
+                       select new BO.TaskInList() { Id = task.Id, Alias = task.Alias, Description = task.Description, Status = task.Status };
+            TaskList = list == null ? new() : new(list);
         }
     }
 }

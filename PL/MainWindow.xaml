@@ -7,10 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <!--button to handle Engineers.-->
-        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="195,174,0,0" VerticalAlignment="Top" Click="btnEngineers_Click" Height="43" Width="117"/>
         <!--button to initialize data.-->
-        <Button Content="data generation" HorizontalAlignment="Left" Margin="476,174,0,0" VerticalAlignment="Top" Height="43" Width="105" Click="btnInitDB"/>
-
+        <Button Content="data generation" HorizontalAlignment="Left" Margin="335.5,120,0,0" VerticalAlignment="Top" Height="43" Width="105" Click="btnInitDB"/>
+        <!--button to handle Engineers.-->
+        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="390,200,0,0" VerticalAlignment="Top" Click="btnEngineers_Click" Height="43" Width="117"/>
+        <!--button to handle Engineers.-->
+        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="271,200,0,0" VerticalAlignment="Top" Click="btnTasks_Click" Height="43" Width="117"/>
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using DalApi;
 using PL.Engineer;
+using PL.Task;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,10 @@ namespace PL
         private void btnEngineers_Click(object sender, RoutedEventArgs e)
         {
             new EngineerListWindow().Show();
+        }
+        private void btnTasks_Click(object sender, RoutedEventArgs e)
+        {
+            new TaskListWindow().Show();
         }
 
         private void btnInitDB(object sender, RoutedEventArgs e)

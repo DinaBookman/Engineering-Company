@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
- namespace PL;
+namespace PL;
 internal class EngineerExperience : IEnumerable
 {
     static readonly IEnumerable<BO.EngineerExperience> s_enums =
@@ -9,7 +9,7 @@ internal class EngineerExperience : IEnumerable
 
     public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
 }
-internal class  Status : IEnumerable
+internal class Status : IEnumerable
 {
     static readonly IEnumerable<BO.Status> s_enums =
 (Enum.GetValues(typeof(BO.Status)) as IEnumerable<BO.Status>)!;
