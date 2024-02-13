@@ -60,8 +60,8 @@ namespace PL.Task
 
         private void SingleTask_update(object sender, MouseButtonEventArgs e)
         {
-            BO.EngineerInList? EngineerInList = (sender as ListView)?.SelectedItem as BO.EngineerInList;
-            TaskWindow ew = new TaskWindow(EngineerInList!.Id);
+            BO.TaskInList? TaskInList = (sender as ListView)?.SelectedItem as BO.TaskInList;
+            TaskWindow ew = new TaskWindow(TaskInList!.Id);
             ew.ShowDialog();
             var temp = s_bl?.Task.ReadAll();
             var list = from task in temp
