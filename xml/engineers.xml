@@ -15,23 +15,9 @@
     <Cost>200.35</Cost>
   </Engineer>
   <Engineer>
-    <Id>121384729</Id>
-    <Name>sara</Name>
-    <Email>dinaellin1@gmail.com</Email>
-    <Level>Novice</Level>
-    <Cost>4564</Cost>
-  </Engineer>
-  <Engineer>
     <Id>220953380</Id>
     <Name>Yair Cohen</Name>
     <Email>220953380@gmail.com</Email>
-    <Level>AdvancedBeginner</Level>
-    <Cost>200.35</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>341717649</Id>
-    <Name>Diana  sh</Name>
-    <Email>341717649@gmail.com</Email>
     <Level>AdvancedBeginner</Level>
     <Cost>200.35</Cost>
   </Engineer>
@@ -41,5 +27,19 @@
     <Email>389229975@gmail.com</Email>
     <Level>Expert</Level>
     <Cost>200.35</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>341717649</Id>
+    <Name>Diana </Name>
+    <Email>649@gmail.com</Email>
+    <Level>AdvancedBeginner</Level>
+    <Cost>200.35</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>121384729</Id>
+    <Name>sara</Name>
+    <Email>dina1@gmail.com</Email>
+    <Level>Proficient</Level>
+    <Cost>4564</Cost>
   </Engineer>
 </ArrayOfEngineer>

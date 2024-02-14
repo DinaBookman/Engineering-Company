@@ -8,6 +8,13 @@
         Title="EngineerWindow" Height="450" Width="800"
         DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid RenderTransformOrigin="0.426,0.598">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black"/>
+                <GradientStop Color="#FF49BDC6" Offset="0.774"/>
+                <GradientStop Color="#FF143437" Offset="0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
         <TextBlock Text="Engineer Details" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Margin="0,20,0,10"/>
 

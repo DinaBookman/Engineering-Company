@@ -9,13 +9,17 @@
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <!--Extrnal Grid-->
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="31*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <!--Internal, Upper Grid-->
-        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+        <Grid Height="auto" Grid.Row="0" Width="auto" Margin="0,0,0,531" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -25,13 +29,22 @@
             <!--Filter categories for Engineer in list.-->
             <ComboBox  SelectedValue="{Binding Level, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource  EngineerExperienceKey}}" SelectionChanged="CbLevelSelector_selectorChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"/>
         </Grid>
-        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path=EngineerList}" MouseDoubleClick="SingleEngineer_update">
+        <ListView Margin="5,5,5,5" Grid.Row="1" ItemsSource="{Binding Path=EngineerList}" MouseDoubleClick="SingleEngineer_update" Grid.ColumnSpan="2">
+            <ListView.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF73C497" Offset="1"/>
+                    <GradientStop Color="#FF2E749C" Offset="0.025"/>
+                    <GradientStop Color="#FF5FA37D" Offset="0.563"/>
+                    <GradientStop Color="#FF6FBE93" Offset="0.825"/>
+                </LinearGradientBrush>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="BtnAdd_Click"/>
+        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Left" Height="50" Width="100" Click="BtnAdd_Click" Margin="350,531,0,-3" Grid.RowSpan="2"/>
     </Grid>
 </Window>

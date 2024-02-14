@@ -8,9 +8,14 @@
         Title="TaskWindow" Height="450" Width="800"
         DataContext="{Binding CurrentTask, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid Margin="50, 50, 50, 0">
-        <!-- Title -->
-        <TextBlock Text="Task Details" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
-
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black"/>
+                <GradientStop Color="#FF2F9097" Offset="1"/>
+                <GradientStop Color="#FF0B2224" Offset="0"/>
+                <GradientStop Color="#FF133C3F" Offset="0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
