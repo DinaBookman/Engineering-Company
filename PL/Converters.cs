@@ -3,17 +3,18 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Collections;
 using System.Collections.Generic;
-namespace PL;
-internal class ConvertIdToContent : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        return (int)value == 0 ? "Add" : "Update";
-    }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+namespace PL
+{
+    // This class implements the IValueConverter interface to convert an ID value to display content.
+    internal class ConvertIdToContent : IValueConverter
     {
-        throw new NotImplementedException();
+        // Converts the input ID value to corresponding display content.
+        // In this case, it returns "Add" if the ID is 0, otherwise "Update".
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)value == 0 ? "Add" : "Update";
+        }
     }
 }
 
