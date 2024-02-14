@@ -15,6 +15,10 @@ namespace PL
         {
             return (int)value == 0 ? "Add" : "Update";
         }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

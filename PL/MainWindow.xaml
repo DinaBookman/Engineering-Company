@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
         <!--button to initialize data.-->
-        <Button Content="data generation" HorizontalAlignment="Left" Margin="335.5,120,0,0" VerticalAlignment="Top" Height="43" Width="105" Click="btnInitDB"/>
+        <Button Content="data generation" HorizontalAlignment="Left" Margin="335.5,120,0,0" VerticalAlignment="Top" Height="43" Width="105" Click="btnInitDB" Background="#FFB8B5B5"/>
         <!--button to handle Engineers.-->
-        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="390,200,0,0" VerticalAlignment="Top" Click="btnEngineers_Click" Height="43" Width="117"/>
+        <Button Content="Handle Engineers" HorizontalAlignment="Left" Margin="390,200,0,0" VerticalAlignment="Top" Click="btnEngineers_Click" Height="43" Width="117" Background="#FF706363"/>
         <!--button to handle Engineers.-->
-        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="271,200,0,0" VerticalAlignment="Top" Click="btnTasks_Click" Height="43" Width="117"/>
+        <Button Content="Handle Tasks" HorizontalAlignment="Left" Margin="271,200,0,0" VerticalAlignment="Top" Click="btnTasks_Click" Height="43" Width="117" Background="#FF706363"/>
     </Grid>
 </Window>

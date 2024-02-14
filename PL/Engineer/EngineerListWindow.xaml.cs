@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,14 +22,18 @@ namespace PL.Engineer
     public partial class EngineerListWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
         public EngineerListWindow()
         {
             InitializeComponent();
+            // Retrieves engineers from the business logic layer and populates EngineerList.
             var temp = s_bl?.Engineer.ReadAll();
             var list = from engineer in temp
                        select new BO.EngineerInList() { Id = engineer.Id, Name = engineer.Name };
             EngineerList = list == null ? new() : new(list);
         }
+
+        // Dependency property for the list of engineers.
         public ObservableCollection<BO.EngineerInList> EngineerList
         {
             get { return (ObservableCollection<BO.EngineerInList>)GetValue(EngineerListProperty); }
@@ -37,7 +42,9 @@ namespace PL.Engineer
 
         public static readonly DependencyProperty EngineerListProperty =
             DependencyProperty.Register("EngineerList", typeof(ObservableCollection<BO.EngineerInList>), typeof(EngineerListWindow), new PropertyMetadata(null));
+
         public BO.EngineerExperience Level { get; set; } = BO.EngineerExperience.None;
+        // Event handler for changing the level selector.
         private void CbLevelSelector_selectorChanged(object sender, SelectionChangedEventArgs e)
         {
             var temp = Level == BO.EngineerExperience.None ?
@@ -48,8 +55,10 @@ namespace PL.Engineer
             EngineerList = list == null ? new() : new(list);
         }
 
+        // Event handler for the Add button click.
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
+            // Opens EngineerWindow for adding a new engineer.
             EngineerWindow ew = new EngineerWindow();
             ew.ShowDialog();
             var temp = s_bl?.Engineer.ReadAll();
@@ -58,8 +67,10 @@ namespace PL.Engineer
             EngineerList = list == null ? new() : new(list);
         }
 
+        // Event handler for updating a single engineer.
         private void SingleEngineer_update(object sender, MouseButtonEventArgs e)
         {
+            // Opens EngineerWindow for updating a selected engineer.
             BO.EngineerInList? EngineerInList = (sender as ListView)?.SelectedItem as BO.EngineerInList;
             EngineerWindow ew = new EngineerWindow(EngineerInList!.Id);
             ew.ShowDialog();

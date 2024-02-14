@@ -28,17 +28,21 @@ namespace PL
             InitializeComponent();
         }
 
+        // Opens EngineerListWindow when btnEngineers is clicked.
         private void btnEngineers_Click(object sender, RoutedEventArgs e)
         {
             new EngineerListWindow().Show();
         }
+
+        // Opens TaskListWindow when btnTasks is clicked.
         private void btnTasks_Click(object sender, RoutedEventArgs e)
         {
             new TaskListWindow().Show();
         }
 
+        // Initializes the database with a confirmation dialog.
         private void btnInitDB(object sender, RoutedEventArgs e)
-        { 
+        {
             if (MessageBox.Show("Are you sure you want to initialize the data?", "initialize data",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -47,7 +51,7 @@ namespace PL
                 {
                     DalTest.Initialization.Do();
                 }
-                catch (Exception ex) 
+                catch 
                 {
                     MessageBox.Show("If you close the next window without saving, your changes will be lost.",
                         "Configuration",

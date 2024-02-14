@@ -22,6 +22,8 @@ namespace PL.Task
     public partial class TaskWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+        // Constructor for TaskWindow, initializes with default or existing task.
         public TaskWindow(int id = 0)
         {
             InitializeComponent();
@@ -48,6 +50,7 @@ namespace PL.Task
                 s_bl.Task.Read(id)!;
         }
 
+        // Dependency property for the current task.
         public BO.Task CurrentTask
         {
             get { return (BO.Task)GetValue(CurrentTaskProperty); }
@@ -57,8 +60,10 @@ namespace PL.Task
         public static readonly DependencyProperty CurrentTaskProperty =
             DependencyProperty.Register("CurrentTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata(null));
 
+        // Event handler for Add/Update button click.
         private void BtnAddUpdate_Click(object sender, RoutedEventArgs e)
         {
+            // Adds or updates task based on button content.
             if ((sender as Button)?.Content.ToString() == "Add")
             {
                 try

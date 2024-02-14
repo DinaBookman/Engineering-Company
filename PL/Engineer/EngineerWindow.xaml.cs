@@ -22,6 +22,8 @@ namespace PL.Engineer
     public partial class EngineerWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+        // Constructor for EngineerWindow, initializes with default or existing engineer.
         public EngineerWindow(int id = 0)
         {
             InitializeComponent();
@@ -30,6 +32,7 @@ namespace PL.Engineer
                 s_bl.Engineer.Read(id)!;
         }
 
+        // Dependency property for the current engineer.
         public BO.Engineer CurrentEngineer
         {
             get { return (BO.Engineer)GetValue(CurrentEngineerProperty); }
@@ -39,8 +42,10 @@ namespace PL.Engineer
         public static readonly DependencyProperty CurrentEngineerProperty =
             DependencyProperty.Register("CurrentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
 
+        // Event handler for Add/Update button click.
         private void BtnAddUpdate_Click(object sender, RoutedEventArgs e)
         {
+            // Adds or updates engineer based on button content.
             if ((sender as Button)?.Content.ToString() == "Add")
             {
                 try
@@ -50,9 +55,10 @@ namespace PL.Engineer
                     MessageBox.Show("The Engineer was successfully added", "success");
 
                 }
-                catch { 
+                catch
+                {
                     MessageBox.Show("Oops! was unable to add Engineer.", "Error to Add Engineer");
-                } 
+                }
             }
             else
             {
@@ -66,7 +72,7 @@ namespace PL.Engineer
                 {
                     MessageBox.Show("Oops! was unable to update Engineer.", "Error to update Engineer");
                 }
-                
+
             }
         }
     }
